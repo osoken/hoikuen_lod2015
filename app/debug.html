@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<meta charset='utf-8'>
+<script src='js/vendor/d3.min.js'></script>
+<link rel='stylesheet' href='js/vendor/leaflet/leaflet.css' />
+<script src='js/vendor/leaflet/leaflet.js'></script>
+<script src='settings.js'></script>
+<body>
+
+<form id='token' method='POST'>
+  <input type='hidden' name='client_id' />
+  <input type='hidden' name='client_secret' />
+  <input type='submit' value='token' />
+</form>
+
+<form id='mecre' method='POST'>
+  <input type='text' name='nickname' />
+  <input type='submit' />
+</form>
+<script>
+
+d3.select('#token').attr('action', endpoint + 'auth/access_token/create');
+d3.select('#token input[name=client_id]').property('value', client_id);
+d3.select('#token input[name=client_secret]').property('value', client_secret);
+
+d3.select('#mecre')
+  .on('submit', function()
+  {
+    d3.event.preventDefault();
+    d3.json(endpoint + 'me/create')
+      .header('X-Access-Token', token)
+      .header("Content-type", "application/x-www-form-urlencoded")
+      .post(encodeURI('nickname='+d3.select('#mecre input[name=nickname]').property('value')),function(err,dat){
+        if (err != null)
+        {
+          var res = JSON.parse(err.response);
+          d3.select('body').selectAll('span').data(d3.entries(res)).enter().append('span').text(function(d){return d.key+':'+d.value;});
+          
+        }
+        console.log(err);
+        console.log(dat);
+      });
+  });
+
+/*
+d3.select('#oshiete')
+.on('submit', function()
+{
+  d3.event.preventDefault();
+  d3.json('https://stg.ms10.oshiete.goo.ne.jp/api/v1/lod01/questions')
+    .header('X-Access-Token', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvYXBpLm9zaGlldGUuZ29vLm5lLmpwXC8iLCJhdWQiOiJsb2QwNC5hcGkub3NoaWV0ZS5nb28ubmUuanAiLCJzdWIiOm51bGwsImV4cCI6MTQ1MDU5MTIwMX0.Kus25mMQ8gC0nPVsOpYj6d_3E41TdoTaCO0nyOl0autvd3_a2T__OhpFi0Y4ma9M3H1VWgdyVPwreWKaJlAdVLyLWKopPy0DSASxekmlHjS5-L1U2SVrrVsVwE7gsD7Wmpz0gTx0Czcn7y2RUaJFq-yr5w0x-nyhzFcgu08Mk7Xq5QqNB8RMQL3f1JAC6f7oCOyVxjx9IkgJiFuOjHU9S3OSyhYs2kSa0xlcDnNlsrpqmbHO1SOcn09o9W1u08as9pyx5SGtOCZFjKBq18YfbQuRNGGo8O6XDkSOwyrIjukw8mLRpAZrnVI4zHV2v3M0lMnNuK8MIhgCxDk50Q3v3Q')
+    .get(function(err,dat)
+    {
+      console.log(err);
+      console.log(dat);
+      d3.select('body').append('span').text(JSON.parse(err.response).message);
+    });
+  console.log('here');
+});
+*/
+</script>

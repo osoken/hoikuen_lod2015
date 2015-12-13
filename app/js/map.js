@@ -1,6 +1,16 @@
 
+var color = [
+  '#018894',
+  '‪#‎22a1a4‬',
+  '‪#‎91c3c9‬',
+  '‪#‎51bc8a‬',
+  '‪#‎5d6066‬'
+];
 
-var map = new L.Map(d3.select('div').node()).setView([35.678707, 139.739143], 12);
+var height = d3.select('html').node().getBoundingClientRect().height;
+var width = d3.select('html').node().getBoundingClientRect().width;
+
+var map = new L.Map(d3.select('div#map').style('width', width + 'px' ).node()).setView([35.678707, 139.739143], 11);
 var tile = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
   attribution : '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
 }).addTo(map);
@@ -42,9 +52,17 @@ d3.json('data/wards.geojson', function(err,collection)
       .data(collection.features)
     .enter().append("path");
   feature.attr("d", path)
-    .attr('fill','rgba(255,255,255,0.1)')
-    .attr('stroke', '#F00')
-    .attr('stroke-width', 5)
+    .attr('fill','rgba(255,255,255,0.0)')
+    .attr('stroke', '#FFF')
+    .attr('stroke-width', 2)
+    .on('mouseover', function(d)
+    {
+      d3.select(this).attr('fill', 'rgba(0,0,0,0.3)');
+    })
+    .on('mouseout', function(d)
+    {
+      d3.select(this).attr('fill', 'rgba(255,255,255,0.0)');
+    })
     .on('click', function(d)
     {
       console.log(d);
