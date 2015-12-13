@@ -3,20 +3,25 @@
 <script src='js/vendor/d3.min.js'></script>
 <link rel='stylesheet' href='js/vendor/leaflet/leaflet.css' />
 <script src='js/vendor/leaflet/leaflet.js'></script>
-<<<<<<< HEAD
+
 <script src='settings.js'></script>
 <body>
   <header style='text-align:center;font-size:32px;background-color:#018894;color:#FFF;'>
     教えて！23区保育園サーチ
   </header>
   <div id='map' style='height:360px'>
-=======
+  </div>
+
 <link rel="stylesheet" href="css/style.css">
-<body>
-<div id='map' style='width:960px;height:500px'>
-</div>
+
 
 <div id='detail'>
+  <div id='lineChart'>
+  </div>
+  <div id='goo' style='background-color:#‎22a1a4‬;'>
+    <ul>
+    </ul>
+  </div>
 <div id="hoiku">
   <h2>宮の台保育園</h2>
   <div class="item">
@@ -30,27 +35,23 @@
     <table>
       <tr>
         <th>住所</th>
-        <td>中野区本町４－１４－１３</td>
+        <td id='hoiku-address'>中野区本町４－１４－１３</td>
       </tr>
       <tr>
         <th>TEL</th>
-        <td>03-3383-6770</td>
-      </tr>
-      <tr>
-        <th>TEL</th>
-        <td>03-3383-6770</td>
+        <td id='hoiku-tel'>03-3383-6770</td>
       </tr>
       <tr>
         <th>基本保育時間</th>
-        <td>午前7時15分から午後6時15分</td>
+        <td id='hoiku-open'>午前7時15分から午後6時15分</td>
       </tr>
       <tr>
         <th>延長保育時間</th>
-        <td>午後8時15分まで</td>
+        <td id='hoiku-open2'>午後8時15分まで</td>
       </tr>
       <tr>
         <th>定員</th>
-        <td>93</td>
+        <td id='hoiku-teiin'>93</td>
       </tr>
       <tr>
         <th>受入年齢</th>
@@ -76,16 +77,10 @@
   </div>
 
 </div>
-  <div id='lineChart'>
-  </div>
-  <div id='goo' style='background-color:#‎22a1a4‬;'>
-    <ul>
-    </ul>
-  </div>
-
-<script src='js/map.js'></script>
 
 <script src='js/goo.js'></script>
+<script src='js/map.js'></script>
+
 
 <script>
 </script>

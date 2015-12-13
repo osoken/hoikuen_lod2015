@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="http://lod4all.net/api/lfasparql-2.0.0.js"></script>
+<link href="/js/vendor/c3/c3.css" rel="stylesheet" type="text/css">
+<script src="/js/vendor/d3.min.js" charset="utf-8"></script>
+<script src="/js/vendor/c3/c3.min.js"></script>
+<script type="text/javascript">
+
+   var lfasparql = new LFASparql();
+   var si_list = [["品川区","gnjp:東京都品川区"]];
+   var ind_list = {"幼稚園在園者数":"http://ind.geonames.jp/ssds/E1501",
+   "一般病院数":"http://ind.geonames.jp/ssds/I5101",
+   "図書館数":"http://ind.geonames.jp/ssds/G1401",
+	"病院数":"http://ind.geonames.jp/ssds/I5101"
+   };
+
+
+
+   var alldata = [];
+//   [{"s":{"type":"bnode","value":"b2770"},"i":{"type":"uri","value":"http://ind.geonames.jp/ssds/E1501"},"l":{"type":"literal","xml:lang":"ja","value":"幼稚園在園者数"},"m":{"type":"literal","value":"人"},"y":{"datatype":"http://www.w3.org/2001/XMLSchema#gYear","type":"typed-literal","value":"1980"},"v":{"datatype":"http://www.w3.org/2001/XMLSchema#integer","type":"typed-literal","value":"6029"}},{"s":{"type":"bnode","value":"b2770"},"i":{"type":"uri","value":"http://ind.geonames.jp/ssds/E1501"},"l":{"type":"literal","xml:lang":"ja","value":"幼稚園在園者数"},"m":{"type":"literal","value":"人"},"y":{"datatype":"http://www.w3.org/2001/XMLSchema#gYear","type":"typed-literal","value":"1981"},"v":{"datatype":"http://www.w3.org/2001/XMLSchema#integer","type":"typed-literal","value":"5029"}}],
+   alldata.push([{"s":{"type":"bnode","value":"b2770"},"i":{"type":"uri","value":"http://ind.geonames.jp/ssds/E1501"},"l":{"type":"literal","xml:lang":"ja","value":"幼稚園在園者数"},"m":{"type":"literal","value":"人"},"y":{"datatype":"http://www.w3.org/2001/XMLSchema#gYear","type":"typed-literal","value":"1980"},"v":{"datatype":"http://www.w3.org/2001/XMLSchema#integer","type":"typed-literal","value":"6029"}},{"s":{"type":"bnode","value":"b4291"},"i":{"type":"uri","value":"http://ind.geonames.jp/ssds/I510120"},"l":{"type":"literal","xml:lang":"ja","value":"一般病院数"},"m":{"type":"literal","value":"施設"},"y":{"datatype":"http://www.w3.org/2001/XMLSchema#gYear","type":"typed-literal","value":"1980"},"v":{"datatype":"http://www.w3.org/2001/XMLSchema#integer","type":"typed-literal","value":"24"}},{"s":{"type":"bnode","value":"b4507"},"i":{"type":"uri","value":"http://ind.geonames.jp/ssds/E1501"},"l":{"type":"literal","xml:lang":"ja","value":"幼稚園在園者数"},"m":{"type":"literal","value":"人"},"y":{"datatype":"http://www.w3.org/2001/XMLSchema#gYear","type":"typed-literal","value":"1981"},"v":{"datatype":"http://www.w3.org/2001/XMLSchema#integer","type":"typed-literal","value":"5406"}},{"s":{"type":"bnode","value":"b467"},"i":{"type":"uri","value":"http://ind.geonames.jp/ssds/I510120"},"l":{"type":"literal","xml:lang":"ja","value":"一般病院数"},"m":{"type":"literal","value":"施設"},"y":{"datatype":"http://www.w3.org/2001/XMLSchema#gYear","type":"typed-literal","value":"1981"},"v":{"datatype":"http://www.w3.org/2001/XMLSchema#integer","type":"typed-literal","value":"21"}},{"s":{"type":"bnode","value":"b1821"},"i":{"type":"uri","value":"http://ind.geonames.jp/ssds/I510120"},"l":{"type":"literal","xml:lang":"ja","value":"一般病院数"},"m":{"type":"literal","value":"施設"},"y":{"datatype":"http://www.w3.org/2001/XMLSchema#gYear","type":"typed-literal","value":"1982"},"v":{"datatype":"http://www.w3.org/2001/XMLSchema#integer","type":"typed-literal","value":"21"}},{"s":{"type":"bnode","value":"b3160"},"i":{"type":"uri","value":"http://ind.geonames.jp/ssds/E1501"},"l":{"type":"literal","xml:lang":"ja","value":"幼稚園在園者数"},"m":{"type":"literal","value":"人"},"y":{"datatype":"http://www.w3.org/2001/XMLSchema#gYear","type":"typed-literal","value":"1982"},"v":{"datatype":"http://www.w3.org/2001/XMLSchema#integer","type":"typed-literal","value":"5265"}},{"s":{"type":"bnode","value":"b302"},"i":{"type":"uri","value":"http://ind.geonames.jp/ssds/I510120"},"l":{"type":"literal","xml:lang":"ja","value":"一般病院数"},"m":{"type":"literal","value":"施設"},"y":{"datatype":"http://www.w3.org/2001/XMLSchema#gYear","type":"typed-literal","value":"1983"},"v":{"datatype":"http://www.w3.org/2001/XMLSchema#integer","type":"typed-literal","value":"22"}},{"s":{"type":"bnode","value":"b3512"},"i":{"type":"uri","value":"http://ind.geonames.jp/ssds/E1501"},"l":{"type":"literal","xml:lang":"ja","value":"幼稚園在園者数"},"m":{"type":"literal","value":"人"},"y":{"datatype":"http://www.w3.org/2001/XMLSchema#gYear","type":"typed-literal","value":"1983"},"v":{"datatype":"http://www.w3.org/2001/XMLSchema#integer","type":"typed-literal","value":"5154"}},{"s":{"type":"bnode","value":"b4476"},"i":{"type":"uri","value":"http://ind.geonames.jp/ssds/I510120"},"l":{"type":"literal","xml:lang":"ja","value":"一般病院数"},"m":{"type":"literal","value":"施設"},"y":{"datatype":"http://www.w3.org/2001/XMLSchema#gYear","type":"typed-literal","value":"1984"},"v":{"datatype":"http://www.w3.org/2001/XMLSchema#integer","type":"typed-literal","value":"22"}},{"s":{"type":"bnode","value":"b3068"},"i":{"type":"uri","value":"http://ind.geonames.jp/ssds/E1501"},"l":{"type":"literal","xml:lang":"ja","value":"幼稚園在園者数"},"m":{"type":"literal","value":"人"},"y":{"datatype":"http://www.w3.org/2001/XMLSchema#gYear","type":"typed-literal","value":"1984"},"v":{"datatype":"http://www.w3.org/2001/XMLSchema#integer","type":"typed-literal","value":"5144"}},{"s":{"type":"bnode","value":"b1526"},"i":{"type":"uri","value":"http://ind.geonames.jp/ssds/I510120"},"l":{"type":"literal","xml:lang":"ja","value":"一般病院数"},"m":{"type":"literal","value":"施設"},"y":{"datatype":"http://www.w3.org/2001/XMLSchema#gYear","type":"typed-literal","value":"1985"},"v":{"datatype":"http://www.w3.org/2001/XMLSchema#integer","type":"typed-literal","value":"22"}},{"s":{"type":"bnode","value":"b51"},"i":{"type":"uri","value":"http://ind.geonames.jp/ssds/E1501"},"l":{"type":"literal","xml:lang":"ja","value":"幼稚園在園者数"},"m":{"type":"literal","value":"人"},"y":{"datatype":"http://www.w3.org/2001/XMLSchema#gYear","type":"typed-literal","value":"1985"},"v":{"datatype":"http://www.w3.org/2001/XMLSchema#integer","type":"typed-literal","value":"5136"}},{"s":{"type":"bnode","value":"b2265"},"i":{"type":"uri","value":"http://ind.geonames.jp/ssds/E1501"},"l":{"type":"literal","xml:lang":"ja","value":"幼稚園在園者数"},"m":{"type":"literal","value":"人"},"y":{"datatype":"http://www.w3.org/2001/XMLSchema#gYear","type":"typed-literal","value":"1986"},"v":{"datatype":"http://www.w3.org/2001/XMLSchema#integer","type":"typed-literal","value":"5252"}},{"s":{"type":"bnode","value":"b1134"},"i":{"type":"uri","value":"http://ind.geonames.jp/ssds/I510120"},"l":{"type":"literal","xml:lang":"ja","value":"一般病院数"},"m":{"type":"literal","value":"施設"},"y":{"datatype":"http://www.w3.org/2001/XMLSchema#gYear","type":"typed-literal","value":"1986"},"v":{"datatype":"http://www.w3.org/2001/XMLSchema#integer","type":"typed-literal","value":"20"}},{"s":{"type":"bnode","value":"b2623"},"i":{"type":"uri","value":"http://ind.geonames.jp/ssds/I510120"},"l":{"type":"literal","xml:lang":"ja","value":"一般病院数"},"m":{"type":"literal","value":"施設"},"y":{"datatype":"http://www.w3.org/2001/XMLSchema#gYear","type":"typed-literal","value":"1987"},"v":{"datatype":"http://www.w3.org/2001/XMLSchema#integer","type":"typed-literal","value":"19"}},{"s":{"type":"bnode","value":"b4270"},"i":{"type":"uri","value":"http://ind.geonames.jp/ssds/E1501"},"l":{"type":"literal","xml:lang":"ja","value":"幼稚園在園者数"},"m":{"type":"literal","value":"人"},"y":{"datatype":"http://www.w3.org/2001/XMLSchema#gYear","type":"typed-literal","value":"1987"},"v":{"datatype":"http://www.w3.org/2001/XMLSchema#integer","type":"typed-literal","value":"5224"}},{"s":{"type":"bnode","value":"b3190"},"i":{"type":"uri","value":"http://ind.geonames.jp/ssds/I510120"},"l":{"type":"literal","xml:lang":"ja","value":"一般病院数"},"m":{"type":"literal","value":"施設"},"y":{"datatype":"http://www.w3.org/2001/XMLSchema#gYear","type":"typed-literal","value":"1988"},"v":{"datatype":"http://www.w3.org/2001/XMLSchema#integer","type":"typed-literal","value":"20"}},{"s":{"type":"bnode","value":"b1668"},"i":{"type":"uri","value":"http://ind.geonames.jp/ssds/E1501"},"l":{"type":"literal","xml:lang":"ja","value":"幼稚園在園者数"},"m":{"type":"literal","value":"人"},"y":{"datatype":"http://www.w3.org/2001/XMLSchema#gYear","type":"typed-literal","value":"1988"},"v":{"datatype":"http://www.w3.org/2001/XMLSchema#integer","type":"typed-literal","value":"5153"}},{"s":{"type":"bnode","value":"b2269"},"i":{"type":"uri","value":"http://ind.geonames.jp/ssds/I510120"},"l":{"type":"literal","xml:lang":"ja","value":"一般病院数"},"m":{"type":"literal","value":"施設"},"y":{"datatype":"http://www.w3.org/2001/XMLSchema#gYear","type":"typed-literal","value":"1989"},"v":{"datatype":"http://www.w3.org/2001/XMLSchema#integer","type":"typed-literal","value":"20"}},{"s":{"type":"bnode","value":"b1882"},"i":{"type":"uri","value":"http://ind.geonames.jp/ssds/E1501"},"l":{"type":"literal","xml:lang":"ja","value":"幼稚園在園者数"},"m":{"type":"literal","value":"人"},"y":{"datatype":"http://www.w3.org/2001/XMLSchema#gYear","type":"typed-literal","value":"1989"},"v":{"datatype":"http://www.w3.org/2001/XMLSchema#integer","type":"typed-literal","value":"4963"}},{"s":{"type":"bnode","value":"b3556"},"i":{"type":"uri","value":"http://ind.geonames.jp/ssds/E1501"},"l":{"type":"literal","xml:lang":"ja","value":"幼稚園在園者数"},"m":{"type":"literal","value":"人"},"y":{"datatype":"http://www.w3.org/2001/XMLSchema#gYear","type":"typed-literal","value":"1990"},"v":{"datatype":"http://www.w3.org/2001/XMLSchema#integer","type":"typed-literal","value":"4810"}},{"s":{"type":"bnode","value":"b1796"},"i":{"type":"uri","value":"http://ind.geonames.jp/ssds/E1501"},"l":{"type":"literal","xml:lang":"ja","value":"幼稚園在園者数"},"m":{"type":"literal","value":"人"},"y":{"datatype":"http://www.w3.org/2001/XMLSchema#gYear","type":"typed-literal","value":"1991"},"v":{"datatype":"http://www.w3.org/2001/XMLSchema#integer","type":"typed-literal","value":"4552"}},{"s":{"type":"bnode","value":"b4625"},"i":{"type":"uri","value":"http://ind.geonames.jp/ssds/I510120"},"l":{"type":"literal","xml:lang":"ja","value":"一般病院数"},"m":{"type":"literal","value":"施設"},"y":{"datatype":"http://www.w3.org/2001/XMLSchema#gYear","type":"typed-literal","value":"1991"},"v":{"datatype":"http://www.w3.org/2001/XMLSchema#integer","type":"typed-literal","value":"20"}},{"s":{"type":"bnode","value":"b39"},"i":{"type":"uri","value":"http://ind.geonames.jp/ssds/I510120"},"l":{"type":"literal","xml:lang":"ja","value":"一般病院数"},"m":{"type":"literal","value":"施設"},"y":{"datatype":"http://www.w3.org/2001/XMLSchema#gYear","type":"typed-literal","value":"1992"},"v":{"datatype":"http://www.w3.org/2001/XMLSchema#integer","type":"typed-literal","value":"19"}},{"s":{"type":"bnode","value":"b213"},"i":{"type":"uri","value":"http://ind.geonames.jp/ssds/E1501"},"l":{"type":"literal","xml:lang":"ja","value":"幼稚園在園者数"},"m":{"type":"literal","value":"人"},"y":{"datatype":"http://www.w3.org/2001/XMLSchema#gYear","type":"typed-literal","value":"1992"},"v":{"datatype":"http://www.w3.org/2001/XMLSchema#integer","type":"typed-literal","value":"4223"}},{"s":{"type":"bnode","value":"b1071"},"i":{"type":"uri","value":"http://ind.geonames.jp/ssds/I510120"},"l":{"type":"literal","xml:lang":"ja","value":"一般病院数"},"m":{"type":"literal","value":"施設"},"y":{"datatype":"http://www.w3.org/2001/XMLSchema#gYear","type":"typed-literal","value":"1993"},"v":{"datatype":"http://www.w3.org/2001/XMLSchema#integer","type":"typed-literal","value":"19"}},{"s":{"type":"bnode","value":"b1968"},"i":{"type":"uri","value":"http://ind.geonames.jp/ssds/E1501"},"l":{"type":"literal","xml:lang":"ja","value":"幼稚園在園者数"},"m":{"type":"literal","value":"人"},"y":{"datatype":"http://www.w3.org/2001/XMLSchema#gYear","type":"typed-literal","value":"1993"},"v":{"datatype":"http://www.w3.org/2001/XMLSchema#integer","type":"typed-literal","value":"3963"}},{"s":{"type":"bnode","value":"b56"},"i":{"type":"uri","value":"http://ind.geonames.jp/ssds/I510120"},"l":{"type":"literal","xml:lang":"ja","value":"一般病院数"},"m":{"type":"literal","value":"施設"},"y":{"datatype":"http://www.w3.org/2001/XMLSchema#gYear","type":"typed-literal","value":"1994"},"v":{"datatype":"http://www.w3.org/2001/XMLSchema#integer","type":"typed-literal","value":"18"}},{"s":{"type":"bnode","value":"b2582"},"i":{"type":"uri","value":"http://ind.geonames.jp/ssds/E1501"},"l":{"type":"literal","xml:lang":"ja","value":"幼稚園在園者数"},"m":{"type":"literal","value":"人"},"y":{"datatype":"http://www.w3.org/2001/XMLSchema#gYear","type":"typed-literal","value":"1994"},"v":{"datatype":"http://www.w3.org/2001/XMLSchema#integer","type":"typed-literal","value":"3659"}},{"s":{"type":"bnode","value":"b3732"},"i":{"type":"uri","value":"http://ind.geonames.jp/ssds/G1401"},"l":{"type":"literal","xml:lang":"ja","value":"図書館数"},"m":{"type":"literal","value":"館"},"y":{"datatype":"http://www.w3.org/2001/XMLSchema#gYear","type":"typed-literal","value":"1995"},"v":{"datatype":"http://www.w3.org/2001/XMLSchema#integer","type":"typed-literal","value":"10"}},{"s":{"type":"bnode","value":"b2699"},"i":{"type":"uri","value":"http://ind.geonames.jp/ssds/E1501"},"l":{"type":"literal","xml:lang":"ja","value":"幼稚園在園者数"},"m":{"type":"literal","value":"人"},"y":{"datatype":"http://www.w3.org/2001/XMLSchema#gYear","type":"typed-literal","value":"1995"},"v":{"datatype":"http://www.w3.org/2001/XMLSchema#integer","type":"typed-literal","value":"3354"}},{"s":{"type":"bnode","value":"b3021"},"i":{"type":"uri","value":"http://ind.geonames.jp/ssds/I510120"},"l":{"type":"literal","xml:lang":"ja","value":"一般病院数"},"m":{"type":"literal","value":"施設"},"y":{"datatype":"http://www.w3.org/2001/XMLSchema#gYear","type":"typed-literal","value":"1995"},"v":{"datatype":"http://www.w3.org/2001/XMLSchema#integer","type":"typed-literal","value":"18"}},{"s":{"type":"bnode","value":"b3836"},"i":{"type":"uri","value":"http://ind.geonames.jp/ssds/I510120"},"l":{"type":"literal","xml:lang":"ja","value":"一般病院数"},"m":{"type":"literal","value":"施設"},"y":{"datatype":"http://www.w3.org/2001/XMLSchema#gYear","type":"typed-literal","value":"1996"},"v":{"datatype":"http://www.w3.org/2001/XMLSchema#integer","type":"typed-literal","value":"18"}},{"s":{"type":"bnode","value":"b1288"},"i":{"type":"uri","value":"http://ind.geonames.jp/ssds/E1501"},"l":{"type":"literal","xml:lang":"ja","value":"幼稚園在園者数"},"m":{"type":"literal","value":"人"},"y":{"datatype":"http://www.w3.org/2001/XMLSchema#gYear","type":"typed-literal","value":"1996"},"v":{"datatype":"http://www.w3.org/2001/XMLSchema#integer","type":"typed-literal","value":"3240"}},{"s":{"type":"bnode","value":"b169"},"i":{"type":"uri","value":"http://ind.geonames.jp/ssds/G1401"},"l":{"type":"literal","xml:lang":"ja","value":"図書館数"},"m":{"type":"literal","value":"館"},"y":{"datatype":"http://www.w3.org/2001/XMLSchema#gYear","type":"typed-literal","value":"1996"},"v":{"datatype":"http://www.w3.org/2001/XMLSchema#integer","type":"typed-literal","value":"10"}},{"s":{"type":"bnode","value":"b497"},"i":{"type":"uri","value":"http://ind.geonames.jp/ssds/I510120"},"l":{"type":"literal","xml:lang":"ja","value":"一般病院数"},"m":{"type":"literal","value":"施設"},"y":{"datatype":"http://www.w3.org/2001/XMLSchema#gYear","type":"typed-literal","value":"1997"},"v":{"datatype":"http://www.w3.org/2001/XMLSchema#integer","type":"typed-literal","value":"18"}},{"s":{"type":"bnode","value":"b719"},"i":{"type":"uri","value":"http://ind.geonames.jp/ssds/G1401"},"l":{"type":"literal","xml:lang":"ja","value":"図書館数"},"m":{"type":"literal","value":"館"},"y":{"datatype":"http://www.w3.org/2001/XMLSchema#gYear","type":"typed-literal","value":"1997"},"v":{"datatype":"http://www.w3.org/2001/XMLSchema#integer","type":"typed-literal","value":"10"}},{"s":{"type":"bnode","value":"b769"},"i":{"type":"uri","value":"http://ind.geonames.jp/ssds/E1501"},"l":{"type":"literal","xml:lang":"ja","value":"幼稚園在園者数"},"m":{"type":"literal","value":"人"},"y":{"datatype":"http://www.w3.org/2001/XMLSchema#gYear","type":"typed-literal","value":"1997"},"v":{"datatype":"http://www.w3.org/2001/XMLSchema#integer","type":"typed-literal","value":"3170"}},{"s":{"type":"bnode","value":"b1506"},"i":{"type":"uri","value":"http://ind.geonames.jp/ssds/I510120"},"l":{"type":"literal","xml:lang":"ja","value":"一般病院数"},"m":{"type":"literal","value":"施設"},"y":{"datatype":"http://www.w3.org/2001/XMLSchema#gYear","type":"typed-literal","value":"1998"},"v":{"datatype":"http://www.w3.org/2001/XMLSchema#integer","type":"typed-literal","value":"17"}},{"s":{"type":"bnode","value":"b2975"},"i":{"type":"uri","value":"http://ind.geonames.jp/ssds/E1501"},"l":{"type":"literal","xml:lang":"ja","value":"幼稚園在園者数"},"m":{"type":"literal","value":"人"},"y":{"datatype":"http://www.w3.org/2001/XMLSchema#gYear","type":"typed-literal","value":"1998"},"v":{"datatype":"http://www.w3.org/2001/XMLSchema#integer","type":"typed-literal","value":"3289"}},{"s":{"type":"bnode","value":"b53"},"i":{"type":"uri","value":"http://ind.geonames.jp/ssds/I510120"},"l":{"type":"literal","xml:lang":"ja","value":"一般病院数"},"m":{"type":"literal","value":"施設"},"y":{"datatype":"http://www.w3.org/2001/XMLSchema#gYear","type":"typed-literal","value":"1999"},"v":{"datatype":"http://www.w3.org/2001/XMLSchema#integer","type":"typed-literal","value":"17"}},{"s":{"type":"bnode","value":"b1218"},"i":{"type":"uri","value":"http://ind.geonames.jp/ssds/G1401"},"l":{"type":"literal","xml:lang":"ja","value":"図書館数"},"m":{"type":"literal","value":"館"},"y":{"datatype":"http://www.w3.org/2001/XMLSchema#gYear","type":"typed-literal","value":"1999"},"v":{"datatype":"http://www.w3.org/2001/XMLSchema#integer","type":"typed-literal","value":"10"}},{"s":{"type":"bnode","value":"b531"},"i":{"type":"uri","value":"http://ind.geonames.jp/ssds/E1501"},"l":{"type":"literal","xml:lang":"ja","value":"幼稚園在園者数"},"m":{"type":"literal","value":"人"},"y":{"datatype":"http://www.w3.org/2001/XMLSchema#gYear","type":"typed-literal","value":"1999"},"v":{"datatype":"http://www.w3.org/2001/XMLSchema#integer","type":"typed-literal","value":"3338"}},{"s":{"type":"bnode","value":"b519"},"i":{"type":"uri","value":"http://ind.geonames.jp/ssds/I5101"},"l":{"type":"literal","xml:lang":"ja","value":"病院数"},"m":{"type":"literal","value":"施設"},"y":{"datatype":"http://www.w3.org/2001/XMLSchema#gYear","type":"typed-literal","value":"2000"},"v":{"datatype":"http://www.w3.org/2001/XMLSchema#integer","type":"typed-literal","value":"16"}},{"s":{"type":"bnode","value":"b2520"},"i":{"type":"uri","value":"http://ind.geonames.jp/ssds/I510120"},"l":{"type":"literal","xml:lang":"ja","value":"一般病院数"},"m":{"type":"literal","value":"施設"},"y":{"datatype":"http://www.w3.org/2001/XMLSchema#gYear","type":"typed-literal","value":"2000"},"v":{"datatype":"http://www.w3.org/2001/XMLSchema#integer","type":"typed-literal","value":"16"}},{"s":{"type":"bnode","value":"b3926"},"i":{"type":"uri","value":"http://ind.geonames.jp/ssds/E1501"},"l":{"type":"literal","xml:lang":"ja","value":"幼稚園在園者数"},"m":{"type":"literal","value":"人"},"y":{"datatype":"http://www.w3.org/2001/XMLSchema#gYear","type":"typed-literal","value":"2000"},"v":{"datatype":"http://www.w3.org/2001/XMLSchema#integer","type":"typed-literal","value":"3353"}},{"s":{"type":"bnode","value":"b171"},"i":{"type":"uri","value":"http://ind.geonames.jp/ssds/I5101"},"l":{"type":"literal","xml:lang":"ja","value":"病院数"},"m":{"type":"literal","value":"施設"},"y":{"datatype":"http://www.w3.org/2001/XMLSchema#gYear","type":"typed-literal","value":"2001"},"v":{"datatype":"http://www.w3.org/2001/XMLSchema#integer","type":"typed-literal","value":"16"}},{"s":{"type":"bnode","value":"b2593"},"i":{"type":"uri","value":"http://ind.geonames.jp/ssds/I510120"},"l":{"type":"literal","xml:lang":"ja","value":"一般病院数"},"m":{"type":"literal","value":"施設"},"y":{"datatype":"http://www.w3.org/2001/XMLSchema#gYear","type":"typed-literal","value":"2001"},"v":{"datatype":"http://www.w3.org/2001/XMLSchema#integer","type":"typed-literal","value":"16"}},{"s":{"type":"bnode","value":"b3597"},"i":{"type":"uri","value":"http://ind.geonames.jp/ssds/E1501"},"l":{"type":"literal","xml:lang":"ja","value":"幼稚園在園者数"},"m":{"type":"literal","value":"人"},"y":{"datatype":"http://www.w3.org/2001/XMLSchema#gYear","type":"typed-literal","value":"2001"},"v":{"datatype":"http://www.w3.org/2001/XMLSchema#integer","type":"typed-literal","value":"3357"}},{"s":{"type":"bnode","value":"b3788"},"i":{"type":"uri","value":"http://ind.geonames.jp/ssds/I5101"},"l":{"type":"literal","xml:lang":"ja","value":"病院数"},"m":{"type":"literal","value":"施設"},"y":{"datatype":"http://www.w3.org/2001/XMLSchema#gYear","type":"typed-literal","value":"2002"},"v":{"datatype":"http://www.w3.org/2001/XMLSchema#integer","type":"typed-literal","value":"15"}},{"s":{"type":"bnode","value":"b2596"},"i":{"type":"uri","value":"http://ind.geonames.jp/ssds/I510120"},"l":{"type":"literal","xml:lang":"ja","value":"一般病院数"},"m":{"type":"literal","value":"施設"},"y":{"datatype":"http://www.w3.org/2001/XMLSchema#gYear","type":"typed-literal","value":"2002"},"v":{"datatype":"http://www.w3.org/2001/XMLSchema#integer","type":"typed-literal","value":"15"}},{"s":{"type":"bnode","value":"b2814"},"i":{"type":"uri","value":"http://ind.geonames.jp/ssds/E1501"},"l":{"type":"literal","xml:lang":"ja","value":"幼稚園在園者数"},"m":{"type":"literal","value":"人"},"y":{"datatype":"http://www.w3.org/2001/XMLSchema#gYear","type":"typed-literal","value":"2002"},"v":{"datatype":"http://www.w3.org/2001/XMLSchema#integer","type":"typed-literal","value":"3429"}},{"s":{"type":"bnode","value":"b2502"},"i":{"type":"uri","value":"http://ind.geonames.jp/ssds/G1401"},"l":{"type":"literal","xml:lang":"ja","value":"図書館数"},"m":{"type":"literal","value":"館"},"y":{"datatype":"http://www.w3.org/2001/XMLSchema#gYear","type":"typed-literal","value":"2002"},"v":{"datatype":"http://www.w3.org/2001/XMLSchema#integer","type":"typed-literal","value":"10"}},{"s":{"type":"bnode","value":"b3199"},"i":{"type":"uri","value":"http://ind.geonames.jp/ssds/I510120"},"l":{"type":"literal","xml:lang":"ja","value":"一般病院数"},"m":{"type":"literal","value":"施設"},"y":{"datatype":"http://www.w3.org/2001/XMLSchema#gYear","type":"typed-literal","value":"2003"},"v":{"datatype":"http://www.w3.org/2001/XMLSchema#integer","type":"typed-literal","value":"14"}},{"s":{"type":"bnode","value":"b3291"},"i":{"type":"uri","value":"http://ind.geonames.jp/ssds/E1501"},"l":{"type":"literal","xml:lang":"ja","value":"幼稚園在園者数"},"m":{"type":"literal","value":"人"},"y":{"datatype":"http://www.w3.org/2001/XMLSchema#gYear","type":"typed-literal","value":"2003"},"v":{"datatype":"http://www.w3.org/2001/XMLSchema#integer","type":"typed-literal","value":"3537"}},{"s":{"type":"bnode","value":"b969"},"i":{"type":"uri","value":"http://ind.geonames.jp/ssds/I5101"},"l":{"type":"literal","xml:lang":"ja","value":"病院数"},"m":{"type":"literal","value":"施設"},"y":{"datatype":"http://www.w3.org/2001/XMLSchema#gYear","type":"typed-literal","value":"2003"},"v":{"datatype":"http://www.w3.org/2001/XMLSchema#integer","type":"typed-literal","value":"14"}},{"s":{"type":"bnode","value":"b678"},"i":{"type":"uri","value":"http://ind.geonames.jp/ssds/I510120"},"l":{"type":"literal","xml:lang":"ja","value":"一般病院数"},"m":{"type":"literal","value":"施設"},"y":{"datatype":"http://www.w3.org/2001/XMLSchema#gYear","type":"typed-literal","value":"2004"},"v":{"datatype":"http://www.w3.org/2001/XMLSchema#integer","type":"typed-literal","value":"14"}},{"s":{"type":"bnode","value":"b3915"},"i":{"type":"uri","value":"http://ind.geonames.jp/ssds/E1501"},"l":{"type":"literal","xml:lang":"ja","value":"幼稚園在園者数"},"m":{"type":"literal","value":"人"},"y":{"datatype":"http://www.w3.org/2001/XMLSchema#gYear","type":"typed-literal","value":"2004"},"v":{"datatype":"http://www.w3.org/2001/XMLSchema#integer","type":"typed-literal","value":"3641"}},{"s":{"type":"bnode","value":"b1789"},"i":{"type":"uri","value":"http://ind.geonames.jp/ssds/I5101"},"l":{"type":"literal","xml:lang":"ja","value":"病院数"},"m":{"type":"literal","value":"施設"},"y":{"datatype":"http://www.w3.org/2001/XMLSchema#gYear","type":"typed-literal","value":"2004"},"v":{"datatype":"http://www.w3.org/2001/XMLSchema#integer","type":"typed-literal","value":"14"}},{"s":{"type":"bnode","value":"b2727"},"i":{"type":"uri","value":"http://ind.geonames.jp/ssds/E1501"},"l":{"type":"literal","xml:lang":"ja","value":"幼稚園在園者数"},"m":{"type":"literal","value":"人"},"y":{"datatype":"http://www.w3.org/2001/XMLSchema#gYear","type":"typed-literal","value":"2005"},"v":{"datatype":"http://www.w3.org/2001/XMLSchema#integer","type":"typed-literal","value":"3818"}},{"s":{"type":"bnode","value":"b4007"},"i":{"type":"uri","value":"http://ind.geonames.jp/ssds/I5101"},"l":{"type":"literal","xml:lang":"ja","value":"病院数"},"m":{"type":"literal","value":"施設"},"y":{"datatype":"http://www.w3.org/2001/XMLSchema#gYear","type":"typed-literal","value":"2005"},"v":{"datatype":"http://www.w3.org/2001/XMLSchema#integer","type":"typed-literal","value":"14"}},{"s":{"type":"bnode","value":"b4171"},"i":{"type":"uri","value":"http://ind.geonames.jp/ssds/I510120"},"l":{"type":"literal","xml:lang":"ja","value":"一般病院数"},"m":{"type":"literal","value":"施設"},"y":{"datatype":"http://www.w3.org/2001/XMLSchema#gYear","type":"typed-literal","value":"2005"},"v":{"datatype":"http://www.w3.org/2001/XMLSchema#integer","type":"typed-literal","value":"14"}},{"s":{"type":"bnode","value":"b3197"},"i":{"type":"uri","value":"http://ind.geonames.jp/ssds/G1401"},"l":{"type":"literal","xml:lang":"ja","value":"図書館数"},"m":{"type":"literal","value":"館"},"y":{"datatype":"http://www.w3.org/2001/XMLSchema#gYear","type":"typed-literal","value":"2005"},"v":{"datatype":"http://www.w3.org/2001/XMLSchema#integer","type":"typed-literal","value":"10"}},{"s":{"type":"bnode","value":"b857"},"i":{"type":"uri","value":"http://ind.geonames.jp/ssds/E1501"},"l":{"type":"literal","xml:lang":"ja","value":"幼稚園在園者数"},"m":{"type":"literal","value":"人"},"y":{"datatype":"http://www.w3.org/2001/XMLSchema#gYear","type":"typed-literal","value":"2006"},"v":{"datatype":"http://www.w3.org/2001/XMLSchema#integer","type":"typed-literal","value":"3871"}},{"s":{"type":"bnode","value":"b2692"},"i":{"type":"uri","value":"http://ind.geonames.jp/ssds/I5101"},"l":{"type":"literal","xml:lang":"ja","value":"病院数"},"m":{"type":"literal","value":"施設"},"y":{"datatype":"http://www.w3.org/2001/XMLSchema#gYear","type":"typed-literal","value":"2006"},"v":{"datatype":"http://www.w3.org/2001/XMLSchema#integer","type":"typed-literal","value":"14"}},{"s":{"type":"bnode","value":"b1110"},"i":{"type":"uri","value":"http://ind.geonames.jp/ssds/I510120"},"l":{"type":"literal","xml:lang":"ja","value":"一般病院数"},"m":{"type":"literal","value":"施設"},"y":{"datatype":"http://www.w3.org/2001/XMLSchema#gYear","type":"typed-literal","value":"2006"},"v":{"datatype":"http://www.w3.org/2001/XMLSchema#integer","type":"typed-literal","value":"14"}},{"s":{"type":"bnode","value":"b214"},"i":{"type":"uri","value":"http://ind.geonames.jp/ssds/E1501"},"l":{"type":"literal","xml:lang":"ja","value":"幼稚園在園者数"},"m":{"type":"literal","value":"人"},"y":{"datatype":"http://www.w3.org/2001/XMLSchema#gYear","type":"typed-literal","value":"2007"},"v":{"datatype":"http://www.w3.org/2001/XMLSchema#integer","type":"typed-literal","value":"3980"}},{"s":{"type":"bnode","value":"b1282"},"i":{"type":"uri","value":"http://ind.geonames.jp/ssds/I510120"},"l":{"type":"literal","xml:lang":"ja","value":"一般病院数"},"m":{"type":"literal","value":"施設"},"y":{"datatype":"http://www.w3.org/2001/XMLSchema#gYear","type":"typed-literal","value":"2007"},"v":{"datatype":"http://www.w3.org/2001/XMLSchema#integer","type":"typed-literal","value":"13"}},{"s":{"type":"bnode","value":"b2022"},"i":{"type":"uri","value":"http://ind.geonames.jp/ssds/I5101"},"l":{"type":"literal","xml:lang":"ja","value":"病院数"},"m":{"type":"literal","value":"施設"},"y":{"datatype":"http://www.w3.org/2001/XMLSchema#gYear","type":"typed-literal","value":"2007"},"v":{"datatype":"http://www.w3.org/2001/XMLSchema#integer","type":"typed-literal","value":"13"}},{"s":{"type":"bnode","value":"b649"},"i":{"type":"uri","value":"http://ind.geonames.jp/ssds/I5101"},"l":{"type":"literal","xml:lang":"ja","value":"病院数"},"m":{"type":"literal","value":"施設"},"y":{"datatype":"http://www.w3.org/2001/XMLSchema#gYear","type":"typed-literal","value":"2008"},"v":{"datatype":"http://www.w3.org/2001/XMLSchema#integer","type":"typed-literal","value":"13"}},{"s":{"type":"bnode","value":"b178"},"i":{"type":"uri","value":"http://ind.geonames.jp/ssds/E1501"},"l":{"type":"literal","xml:lang":"ja","value":"幼稚園在園者数"},"m":{"type":"literal","value":"人"},"y":{"datatype":"http://www.w3.org/2001/XMLSchema#gYear","type":"typed-literal","value":"2008"},"v":{"datatype":"http://www.w3.org/2001/XMLSchema#integer","type":"typed-literal","value":"3951"}},{"s":{"type":"bnode","value":"b1335"},"i":{"type":"uri","value":"http://ind.geonames.jp/ssds/G1401"},"l":{"type":"literal","xml:lang":"ja","value":"図書館数"},"m":{"type":"literal","value":"館"},"y":{"datatype":"http://www.w3.org/2001/XMLSchema#gYear","type":"typed-literal","value":"2008"},"v":{"datatype":"http://www.w3.org/2001/XMLSchema#integer","type":"typed-literal","value":"10"}},{"s":{"type":"bnode","value":"b3773"},"i":{"type":"uri","value":"http://ind.geonames.jp/ssds/I510120"},"l":{"type":"literal","xml:lang":"ja","value":"一般病院数"},"m":{"type":"literal","value":"施設"},"y":{"datatype":"http://www.w3.org/2001/XMLSchema#gYear","type":"typed-literal","value":"2008"},"v":{"datatype":"http://www.w3.org/2001/XMLSchema#integer","type":"typed-literal","value":"13"}},{"s":{"type":"bnode","value":"b3109"},"i":{"type":"uri","value":"http://ind.geonames.jp/ssds/I510120"},"l":{"type":"literal","xml:lang":"ja","value":"一般病院数"},"m":{"type":"literal","value":"施設"},"y":{"datatype":"http://www.w3.org/2001/XMLSchema#gYear","type":"typed-literal","value":"2009"},"v":{"datatype":"http://www.w3.org/2001/XMLSchema#integer","type":"typed-literal","value":"13"}},{"s":{"type":"bnode","value":"b1930"},"i":{"type":"uri","value":"http://ind.geonames.jp/ssds/I5101"},"l":{"type":"literal","xml:lang":"ja","value":"病院数"},"m":{"type":"literal","value":"施設"},"y":{"datatype":"http://www.w3.org/2001/XMLSchema#gYear","type":"typed-literal","value":"2009"},"v":{"datatype":"http://www.w3.org/2001/XMLSchema#integer","type":"typed-literal","value":"13"}},{"s":{"type":"bnode","value":"b1992"},"i":{"type":"uri","value":"http://ind.geonames.jp/ssds/E1501"},"l":{"type":"literal","xml:lang":"ja","value":"幼稚園在園者数"},"m":{"type":"literal","value":"人"},"y":{"datatype":"http://www.w3.org/2001/XMLSchema#gYear","type":"typed-literal","value":"2009"},"v":{"datatype":"http://www.w3.org/2001/XMLSchema#integer","type":"typed-literal","value":"3984"}},{"s":{"type":"bnode","value":"b2221"},"i":{"type":"uri","value":"http://ind.geonames.jp/ssds/E1501"},"l":{"type":"literal","xml:lang":"ja","value":"幼稚園在園者数"},"m":{"type":"literal","value":"人"},"y":{"datatype":"http://www.w3.org/2001/XMLSchema#gYear","type":"typed-literal","value":"2010"},"v":{"datatype":"http://www.w3.org/2001/XMLSchema#integer","type":"typed-literal","value":"4015"}},{"s":{"type":"bnode","value":"b737"},"i":{"type":"uri","value":"http://ind.geonames.jp/ssds/I5101"},"l":{"type":"literal","xml:lang":"ja","value":"病院数"},"m":{"type":"literal","value":"施設"},"y":{"datatype":"http://www.w3.org/2001/XMLSchema#gYear","type":"typed-literal","value":"2010"},"v":{"datatype":"http://www.w3.org/2001/XMLSchema#integer","type":"typed-literal","value":"13"}},{"s":{"type":"bnode","value":"b2043"},"i":{"type":"uri","value":"http://ind.geonames.jp/ssds/I510120"},"l":{"type":"literal","xml:lang":"ja","value":"一般病院数"},"m":{"type":"literal","value":"施設"},"y":{"datatype":"http://www.w3.org/2001/XMLSchema#gYear","type":"typed-literal","value":"2010"},"v":{"datatype":"http://www.w3.org/2001/XMLSchema#integer","type":"typed-literal","value":"13"}},{"s":{"type":"bnode","value":"b1954"},"i":{"type":"uri","value":"http://ind.geonames.jp/ssds/G1401"},"l":{"type":"literal","xml:lang":"ja","value":"図書館数"},"m":{"type":"literal","value":"館"},"y":{"datatype":"http://www.w3.org/2001/XMLSchema#gYear","type":"typed-literal","value":"2011"},"v":{"datatype":"http://www.w3.org/2001/XMLSchema#integer","type":"typed-literal","value":"10"}},{"s":{"type":"bnode","value":"b2292"},"i":{"type":"uri","value":"http://ind.geonames.jp/ssds/I5101"},"l":{"type":"literal","xml:lang":"ja","value":"病院数"},"m":{"type":"literal","value":"施設"},"y":{"datatype":"http://www.w3.org/2001/XMLSchema#gYear","type":"typed-literal","value":"2011"},"v":{"datatype":"http://www.w3.org/2001/XMLSchema#integer","type":"typed-literal","value":"13"}},{"s":{"type":"bnode","value":"b2549"},"i":{"type":"uri","value":"http://ind.geonames.jp/ssds/E1501"},"l":{"type":"literal","xml:lang":"ja","value":"幼稚園在園者数"},"m":{"type":"literal","value":"人"},"y":{"datatype":"http://www.w3.org/2001/XMLSchema#gYear","type":"typed-literal","value":"2011"},"v":{"datatype":"http://www.w3.org/2001/XMLSchema#integer","type":"typed-literal","value":"3949"}},{"s":{"type":"bnode","value":"b4074"},"i":{"type":"uri","value":"http://ind.geonames.jp/ssds/I510120"},"l":{"type":"literal","xml:lang":"ja","value":"一般病院数"},"m":{"type":"literal","value":"施設"},"y":{"datatype":"http://www.w3.org/2001/XMLSchema#gYear","type":"typed-literal","value":"2011"},"v":{"datatype":"http://www.w3.org/2001/XMLSchema#integer","type":"typed-literal","value":"13"}},{"s":{"type":"bnode","value":"b4094"},"i":{"type":"uri","value":"http://ind.geonames.jp/ssds/E1501"},"l":{"type":"literal","xml:lang":"ja","value":"幼稚園在園者数"},"m":{"type":"literal","value":"人"},"y":{"datatype":"http://www.w3.org/2001/XMLSchema#gYear","type":"typed-literal","value":"2012"},"v":{"datatype":"http://www.w3.org/2001/XMLSchema#integer","type":"typed-literal","value":"4001"}}]);
+   console.log(alldata);
+ //  alldata.push([{"s":{"type":"bnode","value":"b2770"},"i":{"type":"uri","value":"http://ind.geonames.jp/ssds/E1501"},"l":{"type":"literal","xml:lang":"ja","value":"幼稚園在園者数"},"m":{"type":"literal","value":"人"},"y":{"datatype":"http://www.w3.org/2001/XMLSchema#gYear","type":"typed-literal","value":"1980"},"v":{"datatype":"http://www.w3.org/2001/XMLSchema#integer","type":"typed-literal","value":"6029"}}]);
+ //  alldata[0].push({"s":{"type":"bnode","value":"b2770"},"i":{"type":"uri","value":"http://ind.geonames.jp/ssds/E1501"},"l":{"type":"literal","xml:lang":"ja","value":"幼稚園在園者数"},"m":{"type":"literal","value":"人"},"y":{"datatype":"http://www.w3.org/2001/XMLSchema#gYear","type":"typed-literal","value":"1981"},"v":{"datatype":"http://www.w3.org/2001/XMLSchema#integer","type":"typed-literal","value":"5029"}});
+    $(document).ready( function() {
+		loadarea();
+		loadindicator();
+		drawChart();
+//        test();
+
+    });
+
+    function loadarea() {
+           $("#si").append(
+			  "<option value=\"gnjp:東京都品川区\">品川区</option>\n" +
+  			  "<option value=\"gnjp:東京都中野区\">中野区</option>\n" +
+  			  "<option value=\"gnjp:東京都杉並区\">杉並区</option>\n" +
+  			  "<option value=\"gnjp:東京都中央区\">中央区</option>\n" +
+ 			  "<option value=\"gnjp:東京都渋谷区\">渋谷区</option>\n" +
+  			  "<option value=\"gnjp:東京都大田区\">大田区</option>\n" +
+  			  "<option value=\"gnjp:東京都千代田区\">千代田区</option>\n" +
+   			  "<option value=\"gnjp:東京都港区\">港区</option>\n" +
+  			  "<option value=\"gnjp:東京都目黒区\">目黒区</option>\n"
+
+			  );
+	}
+
+    function loadindicator() {
+           $("#indicator").append(
+			  "<option value=\"http://ind.geonames.jp/ssds/E1501\">幼稚園在園者数</option>\n" +
+  "<option value=\"http://ind.geonames.jp/ssds/I5101\">一般病院数</option>\n" +
+   "<option value=\"http://ind.geonames.jp/ssds/G1401\">図書館数</option>\n" +
+	"<option value=\"http://ind.geonames.jp/ssds/I5101\">病院数</option>\n"
+			  );
+
+	}
+
+	function sel_ind() {
+				drawChart();
+	}
+
+	function sel_si() {
+		console.log(document.getElementById("si").value);
+		newsi = ["",document.getElementById("si").value];
+		if (si_list.length >= 3) {
+			if (newsi[0] == si_list[1][0] || newsi[0] == si_list[2][0]) {
+				return;
+			}
+			si_list = [si_list[1],si_list[2],newsi];
+		} else {
+			for (var j=1; j < si_list.length ; j++ ) {
+				if (newsi[0] == si_list[j]) {
+					return;
+				}
+			}
+			si_list.push(newsi);
+		}
+		console.log(si_list);
+		var sparql_query = " \
+					SELECT * WHERE{ \
+					graph <http://ind.geonames.jp/ssds> { \
+					    ?s <http://purl.org/linked-data/sdmx/2009/dimension#refArea> "
+					    +  document.getElementById("si").value  +
+					    " . \
+					    ?s <http://worldbank.270a.info/property/indicator> ?i . \
+					    ?i skos:prefLabel ?l . \
+					    ?s <http://purl.org/linked-data/sdmx/2009/attribute#unitMeasure> ?m . \
+					    ?s <http://purl.org/linked-data/sdmx/2009/dimension#refPeriod> ?y . \
+					    ?s <http://purl.org/linked-data/sdmx/2009/measure#obsValue> ?v . \
+					}		\
+					}";
+
+		console.log(sparql_query);
+        lfasparql.executeSparql({
+            appID: "xawsaykmcb",
+            sparql: sparql_query,
+            success: getResult,
+            error: getError
+        });
+	}
+        function getError(xhr, status, error) {
+            console.log("Error occured: " + status + "\nError: " + error + "\nError detail: " + xhr.responseText);
+        }
+
+        function compYear(a, b) {
+        	return a.y.value - b.y.value;
+        }
+
+	    function getResult(json) {
+	    	var data = [];
+	    	json.forEach(function(val) {
+		    	if (ind_list.hasOwnProperty(val.l.value) ) {
+		    		data.push(val);
+		    	}
+	    	});
+			data.sort(compYear);
+			if (alldata.length >= 3) {
+	       		alldata = [alldata[1],alldata[2],data];
+	       	} else {
+	       		alldata.push(data);
+	       	}
+       		console.log(alldata);
+ //      		$("#data").append(JSON.stringify(alldata));
+       		drawChart();
+		}
+
+		function drawChart() {
+		    var data= [];
+		    var measure = "";
+			for (var i=0 ; i < alldata.length ; i ++) {
+   	        	data.push(["year"]);
+	        	data.push([si_list[i][0]]);
+		        alldata[i].forEach(function(val) {
+		     //       console.log(val);
+			 //     if ( hinmoku.hasOwnProperty(val.l.value) ) {
+				 	console.log(val.i.value);
+				 	console.log(document.getElementById("indicator").value);
+			 		if ( val.i.value == document.getElementById("indicator").value) {
+			      	  data[i*2].push(val.y.value);
+	        	      data[i*2+1].push(val.v.value);
+		           }
+		        });
+	        }
+	        console.log(data);
+		   	// Sparqlの結果はデータ系列ごとにソートされている前提
+		    c3DisplayLineChart(data, "result", 800, 600,"年",measure);
+		    // json,  "%ID%", "%WIDTH%", "%HEIGHT%", x軸ラベル, y軸ラベル, x値名, x値, y値
+		}
+
+		function c3DisplayLineChart(json, id, width, height, xAxisLabel, yAxisLabel) {
+			var data=json;
+		    var xAxisValue = {};
+		    for ( var i = 0 ; i < data.length - 1 ; i += 2 ) {
+			    xAxisValue[data[i+1][0]] = data[i][0];
+		    }
+
+//		   console.log("data:", data);
+//		   console.log(xAxisValue);
+
+		    var chart = c3.generate({
+		        bindto:"#"+id,
+		        size: {
+		        	width: width,
+		        	height: height
+		        },
+		        data:{
+		            xs: xAxisValue,
+		            columns: data,
+		            type: 'line'
+		        },
+		        axis: {
+		        	x: {
+		            	label: xAxisLabel
+
+		            },
+		            y: {
+		                label: yAxisLabel
+		            }
+		        },
+		        tooltip: {
+		            position: function (data, width, height, element) {
+		                return {
+		                     top: 0
+		                  	,left: $('line.c3-xgrid-focus').attr('x1')}
+		            }
+		        }
+		    });
+			chart.load();
+
+
+		}
+
+
+</script>
+
+    <title>chart Test</title>
+</head>
+<body>
+    <h3>chart Test</h3>
+    <form id="graph_selector" name="graph_selector">
+    	<select id="si" name="si" onchange="sel_si()">
+    	<option value=""></option>
+    	</select>
+    	<select id="indicator" name="indicator" onchange="sel_ind()">
+    	</select>
+	</form>
+    <ol id="message">
+    </ol>
+    <ol id="result">
+    </ol>
+    <ol id="data">
+    </ol>
+</body>
+</html>
