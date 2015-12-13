@@ -13,18 +13,6 @@ var updatePosition = function(d)
   d3.select(this).attr( {cx: d.pos.x, cy: d.pos.y } );
 }
 
-d3.json('/osoken/raw/92fefc35273ff9855947/yamanote_stations.json', function(err,data)
-{
-  var points = data.nodes;
-  plotLayer.selectAll('circle').data(points).enter().append('circle')
-    .attr({r:10, fill:'steelblue', stroke: 'white', 'stroke-width': 3}).each(updatePosition);
-  map.on('move', function()
-  {
-    plotLayer.selectAll('circle').each(updatePosition);
-  });
-  reset();
-});
-
 var reset = function()
 {
   var bounds = map.getBounds();
