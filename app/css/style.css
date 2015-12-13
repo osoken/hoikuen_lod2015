@@ -1,0 +1,43 @@
+
+#hoiku {
+  font-family: Avenir , "Open Sans" , "Helvetica Neue" , Helvetica , Arial , Verdana , Roboto , "游ゴシック" , "Yu Gothic" , "游ゴシック体" , "YuGothic" , "ヒラギノ角ゴ Pro W3" , "Hiragino Kaku Gothic Pro" , "Meiryo UI" , "メイリオ" , Meiryo , "ＭＳ Ｐゴシック" , "MS PGothic" , sans-serif;
+  color: #666;
+}
+#hoiku h2 {
+  color: #018894;
+  font-size: 120%;
+}
+#hoiku .item {
+  display: table;
+  width: 100%;
+}
+
+#hoiku .item #item1 {
+  display: table-cell;
+  width: 100px;
+    height: 16px;
+}
+#hoiku .item #item2 {
+  display: table-cell;
+  width: 100px;
+    height: 16px;
+}
+.img-1 {
+  width: 100%;
+}
+
+table th {
+  width: 10em;
+  background-color: #;
+  text-align: left;
+  padding:12px;
+}
+table td {
+  padding: 12px;
+}
+
+#018894;
+‪#‎22a1a4‬;
+‪#‎91c3c9‬;
+‪#‎51bc8a‬
+‪#‎5d6066‬
