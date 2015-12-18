@@ -8,7 +8,7 @@ var color = [
 ];
 
 var height = d3.select('html').node().getBoundingClientRect().height;
-var width = d3.select('html').node().getBoundingClientRect().width;
+var width = d3.select('html').node().getBoundingClientRect().width * 0.5;
 
 var map = new L.Map(d3.select('div#map').style('width', width + 'px' ).node()).setView([35.678707, 139.739143], 11);
 var tile = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
@@ -71,6 +71,8 @@ d3.json('data/wards.geojson', function(err,collection)
     })
     .on('click', function(d)
     {
+   	console.log(d.properties.name);
+      sel_si(d.properties.name);
       searchGoo(d.properties.name);
     });
   map.on('move', function()

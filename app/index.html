@@ -1,23 +1,44 @@
 <!DOCTYPE html>
 <meta charset='utf-8'>
-<script src='js/vendor/d3.min.js'></script>
 <link rel='stylesheet' href='js/vendor/leaflet/leaflet.css' />
 <script src='js/vendor/leaflet/leaflet.js'></script>
-
 <script src='settings.js'></script>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="http://lod4all.net/api/lfasparql-2.0.0.js"></script>
+<link href="js/vendor/c3/c3.css" rel="stylesheet" type="text/css">
+<script src="js/vendor/d3.min.js" charset="utf-8"></script>
+<script src="js/vendor/c3/c3.min.js"></script>
 <body>
+<link rel="stylesheet" href="css/style.css">
   <header style='text-align:center;font-size:32px;background-color:#018894;color:#FFF;'>
     教えて！23区保育園サーチ
   </header>
+<table>
+<tr><td valign="top">
   <div id='map' style='height:360px'>
   </div>
-
-<link rel="stylesheet" href="css/style.css">
-
-
-<div id='detail'>
+</td><td>
   <div id='lineChart'>
+    <form id="graph_selector" name="graph_selector">
+<!--    	<select id="si" name="si" onchange="sel_si()">
+    	<option value=""></option>
+    	</select>
+    	<br/>
+-->
+    	<select id="indicator" name="indicator" onchange="sel_ind()">
+    	</select>
+    <br/>
+	</form>
+    <div id="message">
+    </div>
+    <div id="result">
+    </div>
+    <div id="data">
+    </div>
   </div>
+  </td>
+  </tr>
+</table>
   <div id='goo' style='background-color:#‎22a1a4‬;'>
     <ul>
     </ul>
@@ -76,9 +97,8 @@
     </table>
   </div>
 
-</div>
-
 <script src='js/goo.js'></script>
+<script src='js/graph.js'></script>
 <script src='js/map.js'></script>
 
 
