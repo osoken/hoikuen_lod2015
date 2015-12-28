@@ -1,4 +1,3 @@
-
    var xw_chart = d3.select('html').node().getBoundingClientRect().width * 0.4;
    var yw_chart = d3.select('html').node().getBoundingClientRect().width * 0.3;
    var max_chart = 23;
@@ -106,8 +105,7 @@ var alldata = [];
 	}
 
 	var sel_si = function (x) {
-//		var x = document.getElementById("si").selectedIndex;
-//		var sopt = document.getElementById("si").options[x];
+		$("#message").append("データロード中です。しばらくお待ちください。");
 		var sopt = "gnjp:東京都" + x;
 		newsi = [x,sopt];
 		console.log(newsi);
@@ -166,6 +164,7 @@ var alldata = [];
    	//	console.log(alldata);
   	//	$("#data").append(JSON.stringify(alldata));
    		drawChart();
+   		$("#message").empty();
 	}
 
 	function drawChart() {
@@ -197,7 +196,6 @@ var alldata = [];
 	    
 //		   console.log("data:", data);
 //		   console.log(xAxisValue);
-	       
 	    var chart = c3.generate({
 	        bindto:"#"+id,
 	        size: {
@@ -227,7 +225,7 @@ var alldata = [];
 	            }
 	        }
 	    });
-		chart.load();
+
 	}
 
 
