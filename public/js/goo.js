@@ -4,7 +4,7 @@
   var goo = {};
 
   // token 取得
-  goo.getToken = function()
+  goo.getToken = function(){}
   if (typeof define === "function" && define.amd) define(goo); else if (typeof module === "object" && module.exports) module.exports = goo;
   this.goo = goo;
 }());
