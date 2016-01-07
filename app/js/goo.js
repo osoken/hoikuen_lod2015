@@ -1,4 +1,13 @@
 
+!(function(settings)
+{
+  var goo = {};
+
+  // token 取得
+  goo.getToken = function()
+  if (typeof define === "function" && define.amd) define(goo); else if (typeof module === "object" && module.exports) module.exports = goo;
+  this.goo = goo;
+}());
 var searchGoo = function(searchWord)
 {
   d3.json(endpoint + 'search?keyword='+searchWord)
