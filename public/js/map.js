@@ -55,7 +55,8 @@ var transform = d3.geo.transform({point: projectPoint}),
 
 d3.json('data/wards.geojson', function(err,collection)
 {
-	var tbl = []
+	var kulist = {};
+	var tbl = [];
 	var feature = lineLayer.selectAll("path")
 	  .data(collection.features)
 	  .enter().append("path");
@@ -73,10 +74,14 @@ d3.json('data/wards.geojson', function(err,collection)
 	})
 	.on('click', function(d)
 	{
-	console.log(d.properties.name);
-	  loadHoiku(d.properties.name);
-	  sel_si(d.properties.name);
-	  searchGoo(d.properties.name);
+		var name = d.properties.name;
+		if ( name in kulist ) {
+			return;
+		}
+		kulist[name] = 1;
+	  loadHoiku(name);
+	  sel_si(name);
+	  searchGoo(name);
 	});
 	map.on('move', function()
 	{
