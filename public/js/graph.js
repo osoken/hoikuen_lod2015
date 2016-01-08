@@ -120,15 +120,16 @@ var alldata = [];
 		si_list.push(newsi);
 		console.log(si_list);
 		var sparql_query = " \
-					SELECT * WHERE{ \
-					graph <http://ind.geonames.jp/ssds> { \
-					    ?s <http://purl.org/linked-data/sdmx/2009/dimension#refArea> "
-					    +  sopt  +
-					    " . \
-					    ?s <http://worldbank.270a.info/property/indicator> ?i . \
-					    ?s <http://purl.org/linked-data/sdmx/2009/attribute#unitMeasure> ?m . \
-					    ?s <http://purl.org/linked-data/sdmx/2009/dimension#refPeriod> ?y . \
-					    ?s <http://purl.org/linked-data/sdmx/2009/measure#obsValue> ?v . \
+prefix gnjp: <http://geonames.jp/resource/> \
+SELECT * WHERE{ \
+graph <http://ind.geonames.jp/ssds> { \
+?s <http://purl.org/linked-data/sdmx/2009/dimension#refArea> "
++  sopt  +
+" . \
+?s <http://worldbank.270a.info/property/indicator> ?i . \
+?s <http://purl.org/linked-data/sdmx/2009/attribute#unitMeasure> ?m . \
+?s <http://purl.org/linked-data/sdmx/2009/dimension#refPeriod> ?y . \
+?s <http://purl.org/linked-data/sdmx/2009/measure#obsValue> ?v . \
 					}		\
 					}";
 //					    ?i skos:prefLabel ?l . \
