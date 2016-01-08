@@ -55,122 +55,127 @@ var transform = d3.geo.transform({point: projectPoint}),
 
 d3.json('data/wards.geojson', function(err,collection)
 {
-  var feature = lineLayer.selectAll("path")
-      .data(collection.features)
-    .enter().append("path");
-  feature.attr("d", path)
-    .attr('fill','rgba(255,255,255,0.0)')
-    .attr('stroke', '#FFF')
-    .attr('stroke-width', 2)
-    .on('mouseover', function(d)
-    {
-      d3.select(this).attr('fill', 'rgba(0,0,0,0.3)');
-    })
-    .on('mouseout', function(d)
-    {
-      d3.select(this).attr('fill', 'rgba(255,255,255,0.0)');
-    })
-    .on('click', function(d)
-    {
-   	console.log(d.properties.name);
-      sel_si(d.properties.name);
-      searchGoo(d.properties.name);
-    });
-  map.on('move', function()
-  {
-    feature.attr('d', path);
-  });
+	var tbl = []
+	var feature = lineLayer.selectAll("path")
+	  .data(collection.features)
+	  .enter().append("path");
+	feature.attr("d", path)
+	.attr('fill','rgba(255,255,255,0.0)')
+	.attr('stroke', '#FFF')
+	.attr('stroke-width', 2)
+	.on('mouseover', function(d)
+	{
+	  d3.select(this).attr('fill', 'rgba(0,0,0,0.3)');
+	})
+	.on('mouseout', function(d)
+	{
+	  d3.select(this).attr('fill', 'rgba(255,255,255,0.0)');
+	})
+	.on('click', function(d)
+	{
+	console.log(d.properties.name);
+	  loadHoiku(d.properties.name);
+	  sel_si(d.properties.name);
+	  searchGoo(d.properties.name);
+	});
+	map.on('move', function()
+	{
+	feature.attr('d', path);
+	});
   
+	function loadHoiku(ku) {
+		var query_hoiku = " \
+	SELECT * WHERE{ \
+	graph <http://linkdata.org/work/rdf1s3888i/hoikuen_23ku> { \
+	?s <http://linkdata.org/property/rdf1s3888i#市区町村> \""
+	+ ku +
+	"\"@ja ; \
+	<http://linkdata.org/property/rdf1s3888i#施設名> ?sisetu ; \
+	<http://www.w3.org/2003/01/geo/wgs84_pos#lat> ?y ; \
+	<http://www.w3.org/2003/01/geo/wgs84_pos#long> ?x ; . \
+	} } ";
+		console.log(query_hoiku);
+		lfasparql_hoiku.executeSparql({
+		        appID: "lod2015_hoiku",
+		        sparql: query_hoiku,
+		        success: getResultHoiku,
+		        error: getErrorHoiku
+	    });
+	}
 
-  var tbl = [];
-  var query_hoiku = " \
-  SELECT * WHERE{ \
-graph <http://linkdata.org/work/rdf1s3888i/hoikuen_23ku> { \
-?s <http://linkdata.org/property/rdf1s3888i#施設名> ?sisetu ; \
-  <http://www.w3.org/2003/01/geo/wgs84_pos#lat> ?y ; \
-   <http://www.w3.org/2003/01/geo/wgs84_pos#long> ?x ; . \
- } } ";
-  console.log(query_hoiku);
-  lfasparql_hoiku.executeSparql({
-            appID: "lod2015_hoiku",
-            sparql: query_hoiku,
-            success: getResultHoiku,
-            error: getErrorHoiku
-        });
-    function getErrorHoiku(xhr, status, error) {
-        console.log("Error occured: " + status + "\nError: " + error + "\nError detail: " + xhr.responseText);
-    }
-
-    function getResultHoiku(json) {
-    	json.forEach(function(d) {
+	function getResultHoiku(json) {
+		json.forEach(function(d) {
 			d.pos = map.latLngToLayerPoint(new L.LatLng(d.y.value, d.x.value));
-    		tbl.push(d);
-    	});
-//    	console.log(tbl);
+			tbl.push(d);
+		});
 
-	
-    plotLayer.selectAll('circle').data(tbl).enter().append('circle')
-      .attr('cx',function(d){return d.pos.x;})
-      .attr('cy',function(d){return d.pos.y;})
-      .attr('r', 6)
-      .attr('fill', '#018894')
-      .on('mouseover', function(d)
-      {
-        d3.select(this).transition().attr('r', 12)
-          .attr('stroke', '#FFF')
-          .attr('stroke-width', 2);
-        d3.select(this)
-		  .append('title')
-          .text(function(d){return d.sisetu.value});
-      })
-      .on('mouseout', function(d)
-      {
-        d3.select(this).transition().attr('r', 6)
-          .attr('stroke', 'none')
-          .attr('stroke-width', 0);
-      })
-      .on('click', function(d)
-      {
-        d3.event.preventDefault();
+	    plotLayer.selectAll('circle').data(tbl).enter().append('circle')
+	      .attr('cx',function(d){return d.pos.x;})
+	      .attr('cy',function(d){return d.pos.y;})
+	      .attr('r', 6)
+	      .attr('fill', '#018894')
+	      .on('mouseover', function(d)
+	      {
+	        d3.select(this).transition().attr('r', 12)
+	          .attr('stroke', '#FFF')
+	          .attr('stroke-width', 2);
+	        d3.select(this)
+			  .append('title')
+	          .text(function(d){return d.sisetu.value});
+	      })
+	      .on('mouseout', function(d)
+	      {
+	        d3.select(this).transition().attr('r', 6)
+	          .attr('stroke', 'none')
+	          .attr('stroke-width', 0);
+	      })
+	      .on('click', function(d)
+	      {
+	        d3.event.preventDefault();
+	        get1hoiku(d);
+	      });
+	}
+
+	function get1hoiku(d) {
 		var query_1hoiku = " \
-SELECT * WHERE{ \
-graph <http://linkdata.org/work/rdf1s3888i/hoikuen_23ku> { <"
- + d.s.value + 
-"> <http://linkdata.org/property/rdf1s3888i#施設名> ?sisetu ; \
-  <http://linkdata.org/property/rdf1s3888i#種別> ?shubetu ; \
-  <http://linkdata.org/property/rdf1s3888i#住所> ?jusho ; \
-  <http://linkdata.org/property/rdf1s3888i#電話番号> ?denwa ; \
-  <http://linkdata.org/property/rdf1s3888i#定員> ?teiin ; \
-  . \
-  } \
-  }";
+	SELECT * WHERE{ \
+	graph <http://linkdata.org/work/rdf1s3888i/hoikuen_23ku> { <"
+	 + d.s.value + 
+	"> <http://linkdata.org/property/rdf1s3888i#施設名> ?sisetu ; \
+	  <http://linkdata.org/property/rdf1s3888i#種別> ?shubetu ; \
+	  <http://linkdata.org/property/rdf1s3888i#住所> ?jusho ; \
+	  <http://linkdata.org/property/rdf1s3888i#電話番号> ?denwa ; \
+	  <http://linkdata.org/property/rdf1s3888i#定員> ?teiin ; \
+	  . \
+	  } \
+	  }";
 		console.log(query_1hoiku);
-        lfasparql_hoiku.executeSparql({
-            appID: "lod2015_hoikuen",
-            sparql: query_1hoiku,
-            success: getResult1hoiku,
-            error: getErrorHoiku
-        });
-	    function getResult1hoiku(json) {
-	    	d = json[0];
-	    	console.log(d);
-		   	d3.select('div#hoiku h2').text(d.sisetu.value);
-  	        d3.select('div#hoiku p#item2').text(d.shubetu.value);
-	        d3.select('div#hoiku td#hoiku-address').text(d.jusho.value);
-	        d3.select('div#hoiku td#hoiku-tel').text(d.denwa.value);
-	        d3.select('div#hoiku td#hoiku-open').text("");
-	        d3.select('div#hoiku td#hoiku-open2').text("");
-	        d3.select('div#hoiku td#hoiku-teiin').text(d.teiin.value);
+		lfasparql_hoiku.executeSparql({
+		    appID: "lod2015_hoikuen",
+		    sparql: query_1hoiku,
+		    success: getResult1hoiku,
+		    error: getErrorHoiku
+		});
+	}
+
+	function getErrorHoiku(xhr, status, error) {
+	    console.log("Error occured: " + status + "\nError: " + error + "\nError detail: " + xhr.responseText);
+	}
+	    
+	function getResult1hoiku(json) {
+		d = json[0];
+		console.log(d);
+	   	d3.select('div#hoiku h2').text(d.sisetu.value);
+	    d3.select('div#hoiku p#item2').text(d.shubetu.value);
+	    d3.select('div#hoiku td#hoiku-address').text(d.jusho.value);
+	    d3.select('div#hoiku td#hoiku-tel').text(d.denwa.value);
+	    d3.select('div#hoiku td#hoiku-open').text("");
+	    d3.select('div#hoiku td#hoiku-open2').text("");
+	    d3.select('div#hoiku td#hoiku-teiin').text(d.teiin.value);
 	//        d3.select('div#hoiku td#hoiku-open').text(d['基本保育時間']);
 	//       d3.select('div#hoiku td#hoiku-open2').text(d['延長保育時間']);
 	//        d3.select('div#hoiku td#hoiku-teiin').text(d['定員']);
-	    }
-
-
-      });
 	}
-
-
 
 	map.on('move', function()
     {
