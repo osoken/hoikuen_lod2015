@@ -105,15 +105,16 @@ var alldata = [];
 	}
 
 	var sel_si = function (x) {
-		$("#message").append("データロード中です。しばらくお待ちください。");
+
 		var sopt = "gnjp:東京都" + x;
 		newsi = [x,sopt];
 		console.log(newsi);
-		for (var i= 1; i < si_list.length ; i++ ) {
-			if (newsi[0] == si_list[i]) {
+		for (var i= 0; i < si_list.length ; i++ ) {
+			if (newsi[0] == si_list[i][0]) {
 				return;
 			}		
 		}
+		$("#message").append("データロード中です。しばらくお待ちください。");
 		if (si_list.length >= max_chart) {
 			si_list.shift();
 		}
