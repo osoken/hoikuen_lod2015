@@ -183,9 +183,9 @@ d3.json('data/wards.geojson', function(err,collection)
 	}
 
 	map.on('move', function()
-    {
-      plotLayer.selectAll('circle').each(updatePosition);
-    });
+  {
+    plotLayer.selectAll('circle').each(updatePosition);
+  });
   reset();
 });
 
