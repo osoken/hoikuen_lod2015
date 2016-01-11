@@ -1,24 +1,15 @@
 
-!(function(settings)
+!(function()
 {
   var goo = {};
-
-  // token 取得
-  goo.getToken = function(){}
-  if (typeof define === "function" && define.amd) define(goo); else if (typeof module === "object" && module.exports) module.exports = goo;
-  this.goo = goo;
-}());
-var searchGoo = function(searchWord)
-{
-  d3.json(endpoint + 'search?keyword='+searchWord)
-    .header('X-Access-Token', token)
-    .get(function(err,dat)
+  goo.searchGoo = function(query)
+  {
+    d3.json('/api/goo/search?' + Object.keys(query).reduce(function(a,k){a.push(k+'='+encodeURIComponent(query[k]));return a},[]).join('&'), function(err,dat)
     {
       if (err != null)
       {
         return;
       }
-      console.log(dat)
       d3.select('div#goo ul').selectAll('li').remove();
       var lis = d3.select('div#goo ul')
         .selectAll('li')
@@ -36,7 +27,7 @@ var searchGoo = function(searchWord)
         .append('a').text(function(d){return d.title;}).attr('href','#');
       lis.append('span');
     });
-
-}
-
-searchGoo('保育園');
+  }
+  if (typeof define === "function" && define.amd) define(goo); else if (typeof module === "object" && module.exports) module.exports = goo;
+  this.goo = goo;
+}());

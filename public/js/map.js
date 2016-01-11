@@ -81,13 +81,13 @@ d3.json('data/wards.geojson', function(err,collection)
 		kulist[name] = 1;
 	  loadHoiku(name);
 	  sel_si(name);
-	  searchGoo(name);
+	  goo.searchGoo({'keyword':name});
 	});
 	map.on('move', function()
 	{
 	feature.attr('d', path);
 	});
-  
+
 	function loadHoiku(ku) {
 		var query_hoiku = " \
 	SELECT * WHERE{ \
@@ -145,7 +145,7 @@ d3.json('data/wards.geojson', function(err,collection)
 		var query_1hoiku = " \
 	SELECT * WHERE{ \
 	graph <http://linkdata.org/work/rdf1s3888i/hoikuen_23ku> { <"
-	 + d.s.value + 
+	 + d.s.value +
 	"> <http://linkdata.org/property/rdf1s3888i#施設名> ?sisetu ; \
 	  <http://linkdata.org/property/rdf1s3888i#種別> ?shubetu ; \
 	  <http://linkdata.org/property/rdf1s3888i#住所> ?jusho ; \
@@ -166,7 +166,7 @@ d3.json('data/wards.geojson', function(err,collection)
 	function getErrorHoiku(xhr, status, error) {
 	    console.log("Error occured: " + status + "\nError: " + error + "\nError detail: " + xhr.responseText);
 	}
-	    
+
 	function getResult1hoiku(json) {
 		d = json[0];
 		console.log(d);
