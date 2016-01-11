@@ -6,11 +6,6 @@ var https = require('https');
 var setting = require('../settings');
 var goo = require('../goo');
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
-});
-
 router.get('/test', function(req, res, next)
 {
   goo.getToken(function(err,dat)
