@@ -1,0 +1,12 @@
+{
+  "name": "hoikuen_lod2015",
+  "description": "visualize and search hoikuen info",
+  "repository": "https://github.com/osoken/hoikuen_lod2015",
+  "logo": "http://node-js-sample.herokuapp.com/node.svg",
+  "keywords": [
+    "node",
+    "lod",
+    "express"
+  ],
+  "image": "heroku/nodejs"
+}

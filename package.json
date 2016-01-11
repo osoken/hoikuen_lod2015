@@ -3,7 +3,6 @@
   "version": "0.0.1",
   "description": "visualize and search hoikuen info",
   "main": "app.js",
-  "private": true,
   "scripts": {
     "start": "node ./bin/www"
   },
