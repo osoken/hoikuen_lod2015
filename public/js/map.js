@@ -75,13 +75,13 @@ d3.json('data/wards.geojson', function(err,collection)
 	.on('click', function(d)
 	{
 		var name = d.properties.name;
+    goo.searchGoo({'keyword':name});
 		if ( name in kulist ) {
 			return;
 		}
 		kulist[name] = 1;
 	  loadHoiku(name);
 	  sel_si(name);
-	  goo.searchGoo({'keyword':name});
 	});
 	map.on('move', function()
 	{
