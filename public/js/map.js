@@ -136,7 +136,6 @@ d3.json('data/wards.geojson', function(err,collection)
 	      })
 	      .on('click', function(d)
 	      {
-	        d3.event.preventDefault();
 	        get1hoiku(d);
 	      });
 	}
