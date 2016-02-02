@@ -7,34 +7,15 @@ var color = [
   '‪#‎5d6066‬'
 ];
 
-var labelList = [
-"http---linkdata-org-property-rdf1s3888i-種別",
-"http---linkdata-org-property-rdf1s3888i-設置法人",
-"http---linkdata-org-property-rdf1s3888i-住所",
-"http---linkdata-org-property-rdf1s3888i-電話番号",
-"http---linkdata-org-property-rdf1s3888i-設置者",
-"http---linkdata-org-property-rdf1s3888i-運営主体",
-"http---linkdata-org-property-rdf1s3888i-認定こども園",
-"http---linkdata-org-property-rdf1s3888i-こども園区分",
-"http---linkdata-org-property-rdf1s3888i-開設年月日",
-"http---linkdata-org-property-rdf1s3888i-敷地面積",
-"http---linkdata-org-property-rdf1s3888i-床面積",
-"http---linkdata-org-property-rdf1s3888i-園庭面積",
-"http---linkdata-org-property-rdf1s3888i-施設形態",
-"http---linkdata-org-property-rdf1s3888i-対象年齢",
-"http---linkdata-org-property-rdf1s3888i-定員0歳",
-"http---linkdata-org-property-rdf1s3888i-定員1歳",
-"http---linkdata-org-property-rdf1s3888i-定員2歳",
-"http---linkdata-org-property-rdf1s3888i-定員3歳",
-"http---linkdata-org-property-rdf1s3888i-定員4歳",
-"http---linkdata-org-property-rdf1s3888i-定員5歳",
-"http---linkdata-org-property-rdf1s3888i-定員",
-"http---linkdata-org-property-rdf1s3888i-延長保育",
-"http---linkdata-org-property-rdf1s3888i-開園時間",
-"http---linkdata-org-property-rdf1s3888i-終園時間",
-"http---linkdata-org-property-rdf1s3888i-朝延長時間",
-"http---linkdata-org-property-rdf1s3888i-延長時間"
-];
+var labelList = [];
+$('div#hoiku td').each(function(i,d) {
+		labelList.push($(d).attr("id"));
+		});
+
+var urlList = [];
+$('div#hoiku a').each(function(i,d) {
+		urlList.push($(d).attr("id"));
+		});
 
 var height = d3.select('html').node().getBoundingClientRect().height;
 var width = d3.select('html').node().getBoundingClientRect().width * 0.5;
@@ -192,8 +173,7 @@ d3.json('data/wards.geojson', function(err,collection)
 		console.log(json);
 		resultHash = {};
 		json.forEach( function(d) {
-			l = d.p.value.replace(/[:\/\#\.]/g,"-");
-			console.log(l,d.o.value);
+			var l = d.p.value.replace(/[:\/\#\.]/g,"-");
 			resultHash[l] = d.o.value;
 		});
 	   	d3.select('div#hoiku h2').text(resultHash["http---linkdata-org-property-rdf1s3888i-施設名"]);
@@ -202,6 +182,16 @@ d3.json('data/wards.geojson', function(err,collection)
 			if ( l in resultHash ) {
 			    d3.select(label).text(resultHash[l]);
 			} else {
+				d3.select(label).text("");
+			}
+		});
+		urlList.forEach( function(l) {
+			label = 'div#hoiku a#' + l;
+			if ( l in resultHash ) {
+				d3.select(label).attr("href",resultHash[l]);
+			    d3.select(label).text(resultHash[l]);
+			} else {
+				$(label).removeAttr("href");
 				d3.select(label).text("");
 			}
 		});
