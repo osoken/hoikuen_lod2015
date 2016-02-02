@@ -7,6 +7,35 @@ var color = [
   '‪#‎5d6066‬'
 ];
 
+var labelList = [
+"http---linkdata-org-property-rdf1s3888i-種別",
+"http---linkdata-org-property-rdf1s3888i-設置法人",
+"http---linkdata-org-property-rdf1s3888i-住所",
+"http---linkdata-org-property-rdf1s3888i-電話番号",
+"http---linkdata-org-property-rdf1s3888i-設置者",
+"http---linkdata-org-property-rdf1s3888i-運営主体",
+"http---linkdata-org-property-rdf1s3888i-認定こども園",
+"http---linkdata-org-property-rdf1s3888i-こども園区分",
+"http---linkdata-org-property-rdf1s3888i-開設年月日",
+"http---linkdata-org-property-rdf1s3888i-敷地面積",
+"http---linkdata-org-property-rdf1s3888i-床面積",
+"http---linkdata-org-property-rdf1s3888i-園庭面積",
+"http---linkdata-org-property-rdf1s3888i-施設形態",
+"http---linkdata-org-property-rdf1s3888i-対象年齢",
+"http---linkdata-org-property-rdf1s3888i-定員0歳",
+"http---linkdata-org-property-rdf1s3888i-定員1歳",
+"http---linkdata-org-property-rdf1s3888i-定員2歳",
+"http---linkdata-org-property-rdf1s3888i-定員3歳",
+"http---linkdata-org-property-rdf1s3888i-定員4歳",
+"http---linkdata-org-property-rdf1s3888i-定員5歳",
+"http---linkdata-org-property-rdf1s3888i-定員",
+"http---linkdata-org-property-rdf1s3888i-延長保育",
+"http---linkdata-org-property-rdf1s3888i-開園時間",
+"http---linkdata-org-property-rdf1s3888i-終園時間",
+"http---linkdata-org-property-rdf1s3888i-朝延長時間",
+"http---linkdata-org-property-rdf1s3888i-延長時間"
+];
+
 var height = d3.select('html').node().getBoundingClientRect().height;
 var width = d3.select('html').node().getBoundingClientRect().width * 0.5;
 var lfasparql_hoiku = new LFASparql();
@@ -145,14 +174,7 @@ d3.json('data/wards.geojson', function(err,collection)
 	SELECT * WHERE{ \
 	graph <http://linkdata.org/work/rdf1s3888i/hoikuen_23ku> { <"
 	 + d.s.value +
-	"> <http://linkdata.org/property/rdf1s3888i#施設名> ?sisetu ; \
-	  <http://linkdata.org/property/rdf1s3888i#種別> ?shubetu ; \
-	  <http://linkdata.org/property/rdf1s3888i#住所> ?jusho ; \
-	  <http://linkdata.org/property/rdf1s3888i#電話番号> ?denwa ; \
-	  <http://linkdata.org/property/rdf1s3888i#定員> ?teiin ; \
-	  . \
-	  } \
-	  }";
+	"> ?p ?o . } }";
 		console.log(query_1hoiku);
 		lfasparql_hoiku.executeSparql({
 		    appID: "lod2015_hoikuen",
@@ -167,18 +189,22 @@ d3.json('data/wards.geojson', function(err,collection)
 	}
 
 	function getResult1hoiku(json) {
-		d = json[0];
-		console.log(d);
-	   	d3.select('div#hoiku h2').text(d.sisetu.value);
-	    d3.select('div#hoiku p#item2').text(d.shubetu.value);
-	    d3.select('div#hoiku td#hoiku-address').text(d.jusho.value);
-	    d3.select('div#hoiku td#hoiku-tel').text(d.denwa.value);
-	    d3.select('div#hoiku td#hoiku-open').text("");
-	    d3.select('div#hoiku td#hoiku-open2').text("");
-	    d3.select('div#hoiku td#hoiku-teiin').text(d.teiin.value);
-	//        d3.select('div#hoiku td#hoiku-open').text(d['基本保育時間']);
-	//       d3.select('div#hoiku td#hoiku-open2').text(d['延長保育時間']);
-	//        d3.select('div#hoiku td#hoiku-teiin').text(d['定員']);
+		console.log(json);
+		resultHash = {};
+		json.forEach( function(d) {
+			l = d.p.value.replace(/[:\/\#\.]/g,"-");
+			console.log(l,d.o.value);
+			resultHash[l] = d.o.value;
+		});
+	   	d3.select('div#hoiku h2').text(resultHash["http---linkdata-org-property-rdf1s3888i-施設名"]);
+		labelList.forEach( function(l) {
+			label = 'div#hoiku td#' + l;
+			if ( l in resultHash ) {
+			    d3.select(label).text(resultHash[l]);
+			} else {
+				d3.select(label).text("");
+			}
+		});
 	}
 
 	map.on('move', function()
