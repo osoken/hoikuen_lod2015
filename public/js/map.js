@@ -75,7 +75,7 @@ d3.json('data/wards.geojson', function(err,collection)
 	.on('click', function(d)
 	{
 		var name = d.properties.name;
-//    goo.searchGoo({'keyword':name});
+		goo.searchGoo({'keyword':name});
 		if ( name in kulist ) {
 			return;
 		}
@@ -113,7 +113,6 @@ d3.json('data/wards.geojson', function(err,collection)
 			d.pos = map.latLngToLayerPoint(new L.LatLng(d.y.value, d.x.value));
 			tbl.push(d);
 		});
-		console.log(tbl);
 	    plotLayer.selectAll('circle').data(tbl).enter().append('circle')
 	      .attr('cx',function(d){return d.pos.x;})
 	      .attr('cy',function(d){return d.pos.y;})
