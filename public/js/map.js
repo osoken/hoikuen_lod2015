@@ -209,8 +209,8 @@ d3.json('data/wards.geojson', function(err,collection)
 				d3.select(label).attr("src",resultHash[l])
 				  .attr("width",xw_chart).attr("height",yw_chart);
 			} else {
-				$(label).removeAttr("src");
-				$(label).removeAttr("width");
+				$(label).removeAttr("src")
+				  .removeAttr("width").removeAttr("height");
 			}
 		});
 	}
