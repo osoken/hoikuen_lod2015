@@ -19,16 +19,16 @@
         {
           d3.event.preventDefault();
           d3.select(this)
-            .select('span')
-            .append('a')
+            .select('a')
             .text(function(d){return d.body;})
             .attr('href', function(d){return 'http://oshiete.goo.ne.jp/qa/' + d.question_id + '.html';})
-            .attr('target','_blank'); 
+            .attr('target','_blank');
+          d3.select(this).on('click', function(d) {return;});
         });
       lis.append('div')
         .style('background-color', '‪#‎91c3c9‬')
         .append('a').text(function(d){return d.title;}).attr('href','#');
-      lis.append('span');
+      lis.append('a');
     });
   }
   if (typeof define === "function" && define.amd) define(goo); else if (typeof module === "object" && module.exports) module.exports = goo;
