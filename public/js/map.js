@@ -206,8 +206,8 @@ d3.json('data/wards.geojson', function(err,collection)
 			label = 'img#' + l;
 			if ( l in resultHash ) {
 		        $('div#lineChart div#result').empty();
-				d3.select(label).attr("src",resultHash[l]);
-				d3.select(label).attr("width",xw_chart);
+				d3.select(label).attr("src",resultHash[l])
+				  .attr("width",xw_chart).attr("height",yw_chart);
 			} else {
 				$(label).removeAttr("src");
 				$(label).removeAttr("width");
