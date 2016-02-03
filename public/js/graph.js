@@ -1,5 +1,5 @@
    var xw_chart = d3.select('html').node().getBoundingClientRect().width * 0.4;
-   var yw_chart = d3.select('html').node().getBoundingClientRect().width * 0.3;
+   var yw_chart = d3.select('html').node().getBoundingClientRect().width * 0.25;
    var max_chart = 23;
    var lfasparql = new LFASparql();
 //   var si_list = [["中野区","gnjp:東京都中野区"],["杉並区","gnjp:東京都杉並区"]];
