@@ -90,7 +90,7 @@ d3.json('data/wards.geojson', function(err,collection)
 	})
 	.on('click', function(d)
 	{
-		d3.select("a#mapmes").text("地図上の○印（保育園）か他の区をクリックしてください。");
+		d3.select("span#mapmes").text("地図上の○印（保育園）か区をクリックしてください。");
 		var name = d.properties.name;
 		goo.searchGoo({'keyword':name});
 		if ( name in kulist ) {
