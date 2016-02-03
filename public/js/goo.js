@@ -20,7 +20,9 @@
           d3.event.preventDefault();
           d3.select(this)
             .select('span')
-            .text(function(d){return d.body;});
+            .append('a')
+            .text(function(d){return d.body;})
+            .attr('href','http://oshiete.goo.ne.jp/qa/' + function(d){return d.question_id;} + '.html');
         });
       lis.append('div')
         .style('background-color', '‪#‎91c3c9‬')
