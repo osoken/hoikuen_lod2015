@@ -1,22 +1,26 @@
 
-d3.select('div#goo input#delgoo').on('click',function(d) {
-   d3.select('div#goo ul').selectAll('li').remove();
-});
-
 !(function()
 {
   var goo = {};
 
 	  goo.searchGoo = function(query)
   {
+    d3.select('div#goo ul').selectAll('li').remove();
+    d3.select('div#goo').selectAll('input').remove();
+    d3.select('div#goo').append('input')
+      .attr('id','delgoo').attr('type','button')
+      .attr('value','質問非表示').attr('class','btn btn-default')
+    　.on('click',function(d) {
+        d3.select('div#goo ul').selectAll('li').remove();
+        d3.select('div#goo').selectAll('input').remove();
+      });
     d3.json('/api/goo/search?' + Object.keys(query).reduce(function(a,k){a.push(k+'='+encodeURIComponent(query[k]));return a},[]).join('&'), function(err,dat)
     {
       if (err != null)
       {
         return;
       }
-      d3.select('div#goo ul').selectAll('li').remove();
-      var lis = d3.select('div#goo ul')
+	  var lis = d3.select('div#goo ul')
         .selectAll('li')
         .data(dat.items)
         .enter().append('li')
