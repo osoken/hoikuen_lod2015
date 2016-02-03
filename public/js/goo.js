@@ -1,8 +1,13 @@
 
+d3.select('div#goo input#delgoo').on('click',function(d) {
+   d3.select('div#goo ul').selectAll('li').remove();
+});
+
 !(function()
 {
   var goo = {};
-  goo.searchGoo = function(query)
+
+	  goo.searchGoo = function(query)
   {
     d3.json('/api/goo/search?' + Object.keys(query).reduce(function(a,k){a.push(k+'='+encodeURIComponent(query[k]));return a},[]).join('&'), function(err,dat)
     {
