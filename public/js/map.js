@@ -7,7 +7,7 @@ var color = [
   '‪#‎5d6066‬'
 ];
 
-var selected_ku = '保育園';
+var selected_ku = '東京';
 
 var labelList = [];
 $('div#hoiku td').each(function(i,d) {
