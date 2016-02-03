@@ -7,6 +7,8 @@ var color = [
   '‪#‎5d6066‬'
 ];
 
+var selected_ku = '保育園';
+
 var labelList = [];
 $('div#hoiku td').each(function(i,d) {
 		labelList.push($(d).attr("id"));
@@ -92,7 +94,8 @@ d3.json('data/wards.geojson', function(err,collection)
 	{
 		d3.select("span#mapmes").text("地図上の○印（保育園）か区をクリックしてください。");
 		var name = d.properties.name;
-		goo.searchGoo({'keyword':name});
+		selected_ku = name;
+		goo.searchGoo({'keyword':name+" "+$('div#lineChart select#indicator option:selected').text() });
 		if ( name in kulist ) {
 			return;
 		}

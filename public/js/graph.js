@@ -101,7 +101,9 @@ var alldata = [];
 	}
 
 	function sel_ind() {
-				drawChart();
+		var key = selected_ku+" "+$('div#lineChart select#indicator option:selected').text();
+		goo.searchGoo({'keyword':key });
+		drawChart();
 	}
 
 	var sel_si = function (x) {
