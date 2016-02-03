@@ -183,6 +183,7 @@ graph <http://ind.geonames.jp/ssds> { \
 	           }
 	        });
         }
+        $('div#lineChart img').removeAttr('src');
 //	        console.log(data);
 	   	// Sparqlの結果はデータ系列ごとにソートされている前提
 	    c3DisplayLineChart(data, "result", xw_chart, yw_chart,"年",measure);

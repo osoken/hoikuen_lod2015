@@ -17,6 +17,12 @@ $('div#hoiku a').each(function(i,d) {
 		urlList.push($(d).attr("id"));
 		});
 
+var imgList = [];
+$('img').each(function(i,d) {
+		imgList.push($(d).attr("id"));
+		});
+
+
 var height = d3.select('html').node().getBoundingClientRect().height;
 var width = d3.select('html').node().getBoundingClientRect().width * 0.5;
 var lfasparql_hoiku = new LFASparql();
@@ -194,6 +200,17 @@ d3.json('data/wards.geojson', function(err,collection)
 			} else {
 				$(label).removeAttr("href");
 				d3.select(label).text("");
+			}
+		});
+		imgList.forEach( function(l) {
+			label = 'img#' + l;
+			if ( l in resultHash ) {
+		        $('div#lineChart div#result').empty();
+				d3.select(label).attr("src",resultHash[l]);
+				d3.select(label).attr("width",xw_chart);
+			} else {
+				$(label).removeAttr("src");
+				$(label).removeAttr("width");
 			}
 		});
 	}
