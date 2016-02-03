@@ -22,7 +22,7 @@
             .select('span')
             .append('a')
             .text(function(d){return d.body;})
-            .attr('href','http://oshiete.goo.ne.jp/qa/' + function(d){return d.question_id;} + '.html');
+            .attr('href', function(d){return 'http://oshiete.goo.ne.jp/qa/' + d.question_id + '.html';}); 
         });
       lis.append('div')
         .style('background-color', '‪#‎91c3c9‬')
