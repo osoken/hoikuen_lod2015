@@ -22,7 +22,8 @@
             .select('span')
             .append('a')
             .text(function(d){return d.body;})
-            .attr('href', function(d){return 'http://oshiete.goo.ne.jp/qa/' + d.question_id + '.html';}); 
+            .attr('href', function(d){return 'http://oshiete.goo.ne.jp/qa/' + d.question_id + '.html';})
+            .attr('target','_blank'); 
         });
       lis.append('div')
         .style('background-color', '‪#‎91c3c9‬')
