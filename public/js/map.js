@@ -95,7 +95,9 @@ d3.json('data/wards.geojson', function(err,collection)
 		d3.select("span#mapmes").text("地図上の○印（保育園）か区をクリックしてください。");
 		var name = d.properties.name;
 		selected_ku = name;
-		goo.searchGoo({'keyword':name+" "+$('div#lineChart select#indicator option:selected').text() });
+		var key = name+" "+$('div#lineChart select#indicator option:selected').text().replace(/数$/,"");
+		console.log(key);
+		goo.searchGoo({'keyword':key });
 		if ( name in kulist ) {
 			return;
 		}

@@ -101,7 +101,8 @@ var alldata = [];
 	}
 
 	function sel_ind() {
-		var key = selected_ku+" "+$('div#lineChart select#indicator option:selected').text();
+		var key = selected_ku+" "+$('div#lineChart select#indicator option:selected').text().replace(/数$/,"");
+		console.log(key);
 		goo.searchGoo({'keyword':key });
 		drawChart();
 	}
