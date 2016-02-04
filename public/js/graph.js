@@ -114,6 +114,11 @@ var alldata = [];
 		drawChart();
 	}
 
+	function sel_baseind() {
+		drawChart();
+	}
+
+
 	var sel_si = function (x) {
 
 		var sopt = "gnjp:東京都" + x;
