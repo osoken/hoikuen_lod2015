@@ -11,25 +11,22 @@
 "http://ind.geonames.jp/ssds/E1101" : "幼稚園数" ,
 "http://ind.geonames.jp/ssds/E1501" : "幼稚園在園者数" ,
 "http://ind.geonames.jp/ssds/D3203106" : "幼稚園費" ,
-"http://ind.geonames.jp/ssds/H2900" : "最寄の保育所までの距離が１００ｍ未満の住宅数" ,
-"http://ind.geonames.jp/ssds/H2901" : "最寄の保育所までの距離が１００～２００ｍ未満の住宅数" ,
-"http://ind.geonames.jp/ssds/H2902" : "最寄の保育所までの距離が２００～５００ｍ未満の住宅数" ,
-"http://ind.geonames.jp/ssds/H2903" : "最寄の保育所までの距離が５００～１０００ｍ未満の住宅数" ,
-"http://ind.geonames.jp/ssds/H2904" : "最寄の保育所までの距離が１０００ｍ以上の住宅数" ,
+"http://ind.geonames.jp/ssds/H2900" : "保育所まで100m未満の住宅数" ,
+"http://ind.geonames.jp/ssds/H2901" : "保育所まで100-200mの住宅数" ,
+"http://ind.geonames.jp/ssds/H2902" : "保育所まで200-500mの住宅数" ,
+"http://ind.geonames.jp/ssds/H2903" : "保育所まで500-1kmの住宅数" ,
+"http://ind.geonames.jp/ssds/H2904" : "保育所まで1km以上の住宅数" ,
 "http://ind.geonames.jp/ssds/H9101" : "公園数" ,
 "http://ind.geonames.jp/ssds/H9201" : "公園面積" ,
 "http://ind.geonames.jp/ssds/G1401" : "図書館数" ,
-"http://ind.geonames.jp/ssds/_G01104" : "図書館数（人口100万人当たり）" ,
 "http://ind.geonames.jp/ssds/I6100" : "医師数" ,
 "http://ind.geonames.jp/ssds/I6101" : "医療施設医師数" ,
 "http://ind.geonames.jp/ssds/I6201" : "医療施設歯科医師数" ,
 "http://ind.geonames.jp/ssds/I5101" : "病院数" ,
 "http://ind.geonames.jp/ssds/I5211" : "病院病床数" ,
 "http://ind.geonames.jp/ssds/I5102" : "一般診療所数" ,
-"http://ind.geonames.jp/ssds/_I0910105" : "一般診療所数（人口10万人当たり）" ,
 "http://ind.geonames.jp/ssds/I5212" : "一般診療所病床数" ,
 "http://ind.geonames.jp/ssds/I510120" : "一般病院数" ,
-"http://ind.geonames.jp/ssds/_I0910103" : "一般病院数（人口10万人当たり）" ,
 "http://ind.geonames.jp/ssds/I6200" : "歯科医師数" ,
 "http://ind.geonames.jp/ssds/I5103" : "歯科診療所数" ,
 "http://ind.geonames.jp/ssds/I510110" : "精神病院数" ,
@@ -49,6 +46,10 @@
 "http://ind.geonames.jp/ssds/E2101" : "小学校数" ,
 "http://ind.geonames.jp/ssds/D3203102" : "小学校費" ,
 "http://ind.geonames.jp/ssds/A1409" : "６～１１歳人口" ,
+"http://ind.geonames.jp/ssds/B1101" : "面積" ,
+"http://ind.geonames.jp/ssds/H810402" : "住居地域面積" ,
+"http://ind.geonames.jp/ssds/H8103" : "市街化区域面積" ,
+"http://ind.geonames.jp/ssds/H810406" :	"工業地域面積" ,
 "http://ind.geonames.jp/ssds/A1101" : "人口" ,
 "http://ind.geonames.jp/ssds/A110102" : "人口（女）" ,
 "http://ind.geonames.jp/ssds/A110101" : "人口（男）" ,
@@ -93,15 +94,21 @@
 var alldata = [];
 
     function loadindicator() {
+        $("select#baseindicator").append(
+    			"<option value=\"\"></option>\n"
+        	);
     	for (var p in ind_list){
-           $("#indicator").append(
+           $("select#indicator").append(
     			"<option value=\"" + p + "\">" + ind_list[p] + "</option>\n"
     		);
+            $("select#baseindicator").append(
+    			"<option value=\"" + p + "\">" + ind_list[p] + "</option>\n"
+    		);   		
 		}
 	}
 
 	function sel_ind() {
-		var key = selected_ku+" "+$('div#lineChart select#indicator option:selected').text().replace(/数$/,"");
+		var key = selected_ku+" "+$('select#indicator option:selected').text().replace(/数$/,"");
 		console.log(key);
 		goo.searchGoo({'keyword':key });
 		drawChart();
@@ -175,16 +182,38 @@ graph <http://ind.geonames.jp/ssds> { \
 	function drawChart() {
 	    var data= [];
 	    var measure = "";
+	    var basemeasure = "";
+	    var ind = $('select#indicator option:selected').attr("value");
+	    var baseind = $('select#baseindicator option:selected').attr("value");
 		for (var i=0 ; i < alldata.length ; i ++) {
+			var value = {};
+			var base = {};
         	data.push(["year"]);
         	data.push([si_list[i][0]]);
 	        alldata[i].forEach(function(val) {
-		 		if ( val.i.value == document.getElementById("indicator").value) {
+		 		if ( val.i.value == ind) {
 		 		  measure = val.m.value;
-		      	  data[i*2].push(val.y.value);
-        	      data[i*2+1].push(val.v.value);
-	           }
+		      	  value[val.y.value] = val.v.value;
+				}
+		 		if ( val.i.value == baseind) {
+		 		  basemeasure = val.m.value;
+		      	  base[val.y.value] = val.v.value;
+				}
 	        });
+	        for ( y in value) {
+	        	if (baseind == "") {
+		 			data[i*2].push(y);
+     				data[i*2+1].push(value[y]);
+     			} else {
+     				if (base.hasOwnProperty(y)) {
+			 			data[i*2].push(y);
+	     				data[i*2+1].push(value[y]/base[y]);
+	     			}
+     			}
+     		}
+        }
+        if (baseind != "") {
+        	measure = measure + "/" + basemeasure;
         }
         $('div#lineChart img').removeAttr('src')
           .removeAttr('width').removeAttr('height');
